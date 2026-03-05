@@ -2,9 +2,12 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-rootProject.name = "BaronessBoilerplate"
+rootProject.name = "boilerplate"
 
 include(
+    "boilerplate-all",
     "boilerplate-main",
-    "boilerplate-all"
+    "boilerplate-minecraft",
+    "boilerplate-adventure",
+    "boilerplate-paper",
 )

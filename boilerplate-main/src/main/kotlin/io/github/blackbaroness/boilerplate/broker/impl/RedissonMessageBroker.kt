@@ -9,19 +9,22 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.cbor.Cbor
-import org.bukkit.Bukkit
 import org.redisson.api.RTopic
 import org.redisson.api.RedissonClient
 import org.redisson.api.listener.MessageListener
-import java.util.logging.Level
+import org.slf4j.Logger
 import kotlin.reflect.KClass
 
 @OptIn(ExperimentalSerializationApi::class)
 class RedissonMessageBroker(
     private val redisson: RedissonClient,
+    private val logger: Logger,
     private val format: BinaryFormat = Cbor,
-    private val debug: Boolean = false,
+    debug: Boolean = false,
 ) : BaseMessageBroker<String>() {
+
+    private val debugLogger = if (debug) logger else null
+    private val logPrefix = "[Broker/Redisson]"
 
     override suspend fun <MESSAGE : Any> publish(
         topic: String,
@@ -40,7 +43,8 @@ class RedissonMessageBroker(
 
         val bytes = format.encodeToByteArray(RedisPayload.serializer(), payload)
 
-        logDebug { "Publishing to '$topic': ${messageClass.simpleName}($message)" }
+        debugLogger?.info("$logPrefix Publishing to '$topic': ${messageClass.simpleName}($message)")
+
         redisson.getTopic(topic).publish(bytes)
     }
 
@@ -60,9 +64,7 @@ class RedissonMessageBroker(
                 )
 
                 if (payload.className != messageClass.qualifiedName) {
-                    logDebug {
-                        "Ignored: class mismatch. Received='${payload.className}', expected='${messageClass.qualifiedName}'"
-                    }
+                    debugLogger?.info("$logPrefix Ignoring: class mismatch. Received='${payload.className}', expected='${messageClass.qualifiedName}'")
                     return@MessageListener
                 }
 
@@ -72,45 +74,19 @@ class RedissonMessageBroker(
                     payload.data,
                 )
 
-                logDebug { "Accepted: topic=$topic, message=$message" }
+                debugLogger?.info("$logPrefix Accepting: topic=$topic, message=$message")
                 trySend(ReceivedMessage(topic, message))
             } catch (e: Throwable) {
-                logDebug(e) { "Failed to handle message from '$topic'" }
+                logger.error("$logPrefix Failed to handle message from '$topic'", e)
             }
         }
 
         val listenerId = redisTopic.addListener(ByteArray::class.java, listener)
-
-        logDebug { "Subscribed to '$topic'" }
+        debugLogger?.info("Subscribed to '$topic'")
 
         awaitClose {
-            logDebug { "Unsubscribed from '$topic'" }
+            debugLogger?.info("Unsubscribed from '$topic'")
             redisTopic.removeListener(listenerId)
-        }
-    }
-
-    private inline fun logDebug(
-        throwable: Throwable? = null,
-        message: () -> String,
-    ) {
-        if (!debug) return
-
-        val text = "[BROKER] ${message()}"
-
-        runCatching {
-            val logger = Bukkit.getServer().logger
-            if (throwable != null) {
-                logger.log(Level.INFO, text, throwable)
-            } else {
-                logger.log(Level.INFO, text)
-            }
-        }.getOrElse {
-            if (throwable != null) {
-                println("$text :: ${throwable.message}")
-                throwable.printStackTrace()
-            } else {
-                println(text)
-            }
         }
     }
 

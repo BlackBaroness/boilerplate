@@ -1,26 +1,29 @@
 [versions]
 minecraft-v1_v16_v5 = "1.16.5-R0.1-SNAPSHOT"
 minecraft-v1_v21_v4 = "1.21.4-R0.1-SNAPSHOT"
-configurate = "4.2.0"
 adventure = "4.26.1"
 adventure-platforms = "4.4.1"
 invui = "1.49"
 guice = "7.0.0"
 litecommands = "3.10.9"
 mccoroutine = "2.22.0"
+hibernate = "7.2.6.Final"
 
 [libraries]
 # KotlinX
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.10.0" }
 kotlinx-serialization-cbor = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cbor", version = "1.10.0" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.10.2" }
+
 # LiteCommands
 litecommands-core = { module = "dev.rollczi:litecommands-core", version.ref = "litecommands" }
 litecommands-framework = { module = "dev.rollczi:litecommands-framework", version.ref = "litecommands" }
 litecommands-bukkit = { module = "dev.rollczi:litecommands-bukkit", version.ref = "litecommands" }
+
 # Guice
 guice-core = { module = "com.google.inject:guice", version.ref = "guice" }
 guice-assistedinject = { module = "com.google.inject.extensions:guice-assistedinject", version.ref = "guice" }
+
 # Adventure
 adventure-core = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 adventure-serializer-gson = { module = "net.kyori:adventure-text-serializer-gson", version.ref = "adventure" }
@@ -30,23 +33,28 @@ adventure-serializer-bungeecord = { module = "net.kyori:adventure-text-serialize
 adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 adventure-platform-bukkit = { module = "net.kyori:adventure-platform-bukkit", version.ref = "adventure-platforms" }
 adventure-platform-bungeecord = { module = "net.kyori:adventure-platform-bungeecord", version.ref = "adventure-platforms" }
+
 # InvUI
 invui-core = { module = "xyz.xenondevs.invui:invui", version.ref = "invui" }
 invui-kotlin = { module = "xyz.xenondevs.invui:invui-kotlin", version.ref = "invui" }
+
 # Paper
-paper-v1_v16_v5 = { module = "com.destroystokyo.paper:paper-api", version.ref = "minecraft-v1_v16_v5" }
-paper-v1_v21_v4 = { module = "io.papermc.paper:paper-api", version.ref = "minecraft-v1_v21_v4" }
+paper-latest = { module = "io.papermc.paper:paper-api", version = "1.21.11-R0.1-SNAPSHOT" }
+
 # MCCoroutine
 mccoroutine-bungeecord = { module = "com.github.shynixn.mccoroutine:mccoroutine-bungeecord-api", version.ref = "mccoroutine" }
 mccoroutine-folia = { module = "com.github.shynixn.mccoroutine:mccoroutine-folia-api", version.ref = "mccoroutine" }
+
+# Hibernate
+hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate" }
+hibernate-hikaricp = { module = "org.hibernate.orm:hibernate-hikaricp", version.ref = "hibernate" }
+
 # Misc
 durationserializer = { module = "io.github.blackbaroness:duration-serializer", version = "2.0.2" }
 nbtapi = { module = "de.tr7zw:item-nbt-api-plugin", version = "2.15.5" }
-hibernate-platform = { module = "org.hibernate.orm:hibernate-platform", version = "7.2.6.Final" }
 h2 = { module = "com.h2database:h2", version = "2.4.240" }
 mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version = "3.5.7" }
 postgresql = { module = "org.postgresql:postgresql", version = "42.7.10" }
-vectorz = { module = "net.mikera:vectorz", version = "0.67.0" }
 bungeecord = { module = "net.md-5:bungeecord-api", version = "1.21-R0.4" }
 bytebuddy = { module = "net.bytebuddy:byte-buddy", version = "1.18.7" }
 placeholderapi = { module = "me.clip:placeholderapi", version = "2.12.2" }
@@ -56,3 +64,4 @@ caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3
 luckperms = { module = "net.luckperms:api", version = "5.5" }
 zstd = { module = "com.github.luben:zstd-jni", version = "1.5.7-7" }
 joml = { module = "org.joml:joml", version = "1.10.8" }
+bungeecordChat = { module = "net.md-5:bungeecord-chat", version = "1.21-R0.4" }

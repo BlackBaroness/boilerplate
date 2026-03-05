@@ -3,11 +3,13 @@ maven("https://jitpack.io")
 ```
 
 ```kotlin
-implementation("com.github.BlackBaroness.BaronessBoilerplate:boilerplate-all:VERSION")
+implementation("com.github.BlackBaroness.boilerplate:boilerplate-MODULE:VERSION")
 ```
 
-#### Minimum Java version: 11
+Java version during the build: 21 (to support latest Minecraft version)
 
-### Feel free to make PRs
+Target java version: 17 (to support older Minecraft versions)
 
-### Have fun!
+---
+
+Feel free to make PRs and have fun!

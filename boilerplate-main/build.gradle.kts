@@ -6,32 +6,23 @@ plugins {
 }
 
 repositories {
-    maven("https://repo.papermc.io/repository/maven-public/") // Paper API
-    maven("https://repo.codemc.io/repository/maven-public/") // NBT-API
     maven("https://repo.panda-lang.org/releases") // LiteCommands
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
-    maven("https://repo.xenondevs.xyz/releases") // InvUI
 }
 
 dependencies {
-    // Platforms
-    compileOnly(libs.paper.v1.v16.v5)
-    compileOnly(libs.bungeecord)
-
     // Coroutines
     compileOnly(libs.kotlinx.coroutines)
-    compileOnly(libs.mccoroutine.bungeecord)
-    compileOnly(libs.mccoroutine.folia)
 
     // Serialization
     compileOnly(libs.kotlinx.serialization.json)
     compileOnly(libs.kotlinx.serialization.cbor)
     compileOnly(libs.durationserializer)
 
+    // Hibernate
+    compileOnly(libs.hibernate.core)
+    compileOnly(libs.hibernate.hikaricp)
+
     // SQL
-    compileOnly(platform(libs.hibernate.platform))
-    compileOnly("org.hibernate.orm:hibernate-core")
-    compileOnly("org.hibernate.orm:hibernate-hikaricp")
     compileOnly(libs.h2)
     compileOnly(libs.mariadb)
     compileOnly(libs.postgresql)
@@ -54,22 +45,8 @@ dependencies {
     compileOnly(libs.adventure.platform.bukkit)
     compileOnly(libs.adventure.platform.bungeecord)
 
-    // Platform plugins
-    compileOnly(libs.luckperms)
-    compileOnly(libs.nbtapi)
-    compileOnly(libs.placeholderapi)
-
-    // InvUI
-    compileOnly(libs.invui.core)
-    compileOnly(libs.invui.kotlin)
-
-    // LiteCommands
-    compileOnly(libs.litecommands.core)
-    compileOnly(libs.litecommands.framework)
-
     // Math
     compileOnly(libs.joml)
-    compileOnly(libs.vectorz)
 
     // Reflection
     compileOnly(libs.bytebuddy)
