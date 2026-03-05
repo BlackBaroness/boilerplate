@@ -52,8 +52,8 @@ data class ItemTemplate(
         val type: PotionType,
         val extended: Boolean,
         val upgraded: Boolean,
-        val color: @Contextual Color?,
-        val effects: List<@Contextual PotionEffect>?,
+        val color: @Contextual Color? = null,
+        val effects: List<@Contextual PotionEffect>? = null,
     )
 
     @Serializable
