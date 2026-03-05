@@ -17,9 +17,7 @@ internal var logger: Logger? = null
 internal val loggerSafe get() = logger ?: JavaPlugin.getProvidingPlugin(Boilerplate::class.java).slF4JLogger
 
 fun Boilerplate.initializeLogger(plugin: Plugin) {
-    if (logger != null) {
-        logger = plugin.slF4JLogger
-    }
+    logger = plugin.slF4JLogger
 }
 
 fun Boilerplate.resolveNamespacedKey(input: String): NamespacedKey? =
