@@ -65,3 +65,7 @@ luckperms = { module = "net.luckperms:api", version = "5.5" }
 zstd = { module = "com.github.luben:zstd-jni", version = "1.5.7-7" }
 joml = { module = "org.joml:joml", version = "1.10.8" }
 bungeecordChat = { module = "net.md-5:bungeecord-chat", version = "1.21-R0.4" }
+kaml = { module = "com.charleskorn.kaml:kaml", version = "0.104.0" }
+mysql = { module = "com.mysql:mysql-connector-j", version = "9.6.0" }
+hikaricp = { module = "com.zaxxer:HikariCP", version = "7.0.2" }
+sqlite = { module = "org.xerial:sqlite-jdbc", version = "3.51.2.0" }

@@ -3,6 +3,7 @@ package io.github.blackbaroness.boilerplate.adventure
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.ComponentLike
+import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -122,3 +123,13 @@ val ComponentLike.asBungeeCordComponents: Array<BaseComponent>
 
 val Array<BaseComponent>.asAdventureComponent: Component
     get() = BungeeComponentSerializer.get().deserialize(this)
+
+inline fun buildComponent(action: TextComponent.Builder.() -> Unit): Component {
+    val builder = Component.text()
+    action.invoke(builder)
+    return builder.build()
+}
+
+fun TextComponent.Builder.append(rawString: String, vararg tagResolvers: TagResolver) {
+    append(rawString.parseMiniMessage(*tagResolvers))
+}

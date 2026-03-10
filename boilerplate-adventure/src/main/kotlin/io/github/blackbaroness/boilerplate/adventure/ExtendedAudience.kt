@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.ComponentLike
 import net.kyori.adventure.title.Title
 
+@Suppress("JavaDefaultMethodsNotOverriddenByDelegation")
 @JvmInline
 value class ExtendedAudience(private val origin: Audience) : Audience by origin {
 

@@ -1,5 +1,7 @@
 package io.github.blackbaroness.boilerplate
 
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.temporal.ChronoUnit
@@ -44,4 +46,11 @@ private suspend inline fun <T : Comparable<T>> delayRandomRange(range: ClosedRan
 private suspend fun delayRandomRangeMillis(min: Long, max: Long) {
     require(min < max) { "Invalid delay range: $min..$max" }
     delay(Random.nextLong(min, max + 1))
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun <T> Deferred<T>.getCompletedOrNull(): T? = try {
+    getCompleted()
+} catch (_: IllegalStateException) {
+    null
 }

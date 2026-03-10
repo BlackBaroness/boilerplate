@@ -1,6 +1,11 @@
 package io.github.blackbaroness.boilerplate
 
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.util.*
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 fun writeLongBigEndian(array: ByteArray, offset: Int, value: Long) {
     array[offset + 0] = (value ushr 56).toByte()
@@ -49,3 +54,15 @@ fun ByteArray.toUuid(offset: Int = 0) = UUID(
     readLongBigEndian(this, offset),
     readLongBigEndian(this, offset + 8)
 )
+
+fun byteArrayInputStream(buf: ByteArray, offset: Int): ByteArrayInputStream {
+    return ByteArrayInputStream(buf, offset, buf.size - offset)
+}
+
+@OptIn(ExperimentalContracts::class)
+inline fun <T> ByteArray.read(offset: Int, action: (InputStream) -> T): T {
+    contract {
+        callsInPlace(action, InvocationKind.EXACTLY_ONCE)
+    }
+    return action.invoke(byteArrayInputStream(this, offset))
+}

@@ -16,3 +16,5 @@ fun Duration.format(format: DurationFormat) =
 
 val Duration.asMinecraftTicks
     get() = inWholeMilliseconds / 50
+
+val Duration.inSeconds: Double get() = inWholeMilliseconds / 1000.0
