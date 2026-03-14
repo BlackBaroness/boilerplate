@@ -4,7 +4,13 @@ import io.github.blackbaroness.boilerplate.Boilerplate
 import io.github.blackbaroness.boilerplate.adventure.ExtendedAudience
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.ComponentLike
+import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer
 import net.md_5.bungee.api.CommandSender
+import net.md_5.bungee.api.chat.BaseComponent
+import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.connection.Connection
 import net.md_5.bungee.api.connection.ProxiedPlayer
 import net.md_5.bungee.api.plugin.Plugin
 
@@ -41,3 +47,15 @@ val CommandSender.adventure: Audience
             Boilerplate.bungeeAudiences.sender(this)
         }
     )
+
+val ComponentLike.asBungeeCordComponents: Array<BaseComponent>
+    get() = BungeeComponentSerializer.get().serialize(asComponent())
+
+val Array<BaseComponent>.asAdventureComponent: Component
+    get() = BungeeComponentSerializer.get().deserialize(this)
+
+val Array<BaseComponent>.asSingleComponent: BaseComponent
+    get() = singleOrNull() ?: TextComponent().apply { extra = this@asSingleComponent.toList() }
+
+fun Connection.disconnect(reason: ComponentLike) =
+    disconnect(reason.asBungeeCordComponents.asSingleComponent)
