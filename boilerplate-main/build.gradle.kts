@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    compileOnly(kotlin("reflect"))
+
     // Coroutines
     compileOnly(libs.kotlinx.coroutines)
 
