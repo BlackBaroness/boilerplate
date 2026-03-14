@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 fun Boilerplate.papiTagResolver(player: Player?, selfClosing: Boolean = true) =
     TagResolver.resolver("papi") { argumentQueue, _ ->
         if (!Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            loggerSafe.info("PlaceholderAPI is missing, unable to resolve <papi> placeholders")
+            Boilerplate.logger.info("PlaceholderAPI is missing, unable to resolve <papi> placeholders")
             return@resolver Tag.selfClosingInserting(Component.text("PlaceholderAPI is missing"))
         }
 

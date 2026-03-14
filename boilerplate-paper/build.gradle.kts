@@ -23,7 +23,6 @@ dependencies {
 
     // Coroutines
     compileOnly(libs.kotlinx.coroutines)
-    compileOnly(libs.mccoroutine.bungeecord)
     compileOnly(libs.mccoroutine.folia)
 
     // Adventure

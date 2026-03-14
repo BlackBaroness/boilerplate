@@ -10,12 +10,12 @@ val Boilerplate.Reflection.material_getDefaultAttributeModifiers: MethodHandle? 
     Material::class.java.methods
         .firstOrNull { it.name == "getDefaultAttributeModifiers" && it.parameterCount == 0 }
         ?.let { MethodHandles.lookup().unreflect(it) }
-        ?.also { loggerSafe.info("Detected Material.getDefaultAttributeModifiers()") }
+        ?.also { Boilerplate.logger.info("Detected Material.getDefaultAttributeModifiers()") }
 }
 
 val Boilerplate.Reflection.itemMeta_setAttributeModifiers: MethodHandle? by lazy {
     ItemMeta::class.java.methods
         .firstOrNull { it.name == "setAttributeModifiers" && it.parameterCount == 1 }
         ?.let { MethodHandles.lookup().unreflect(it) }
-        ?.also { loggerSafe.info("Detected ItemMeta.setAttributeModifiers()") }
+        ?.also { Boilerplate.logger.info("Detected ItemMeta.setAttributeModifiers()") }
 }

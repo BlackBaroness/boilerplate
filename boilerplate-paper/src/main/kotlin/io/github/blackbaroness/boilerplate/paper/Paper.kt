@@ -6,14 +6,20 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.slf4j.Logger
 
-internal var logger: Logger? = null
+@Suppress("ObjectPropertyName")
+private var _logger: Logger? = null
 
-internal val loggerSafe get() = logger ?: JavaPlugin.getProvidingPlugin(Boilerplate::class.java).slF4JLogger
+@Suppress("UnusedReceiverParameter")
+val Boilerplate.logger: Logger get() = _logger ?: JavaPlugin.getProvidingPlugin(Boilerplate::class.java).slF4JLogger
 
+@Suppress("UnusedReceiverParameter")
 fun Boilerplate.initializeLogger(plugin: Plugin) {
-    logger = plugin.slF4JLogger
+    if (_logger == null) {
+        _logger = plugin.slF4JLogger
+    }
 }
 
+@Suppress("UnusedReceiverParameter")
 fun Boilerplate.resolveNamespacedKey(input: String): NamespacedKey? =
     if (input.contains(':'))
         NamespacedKey.fromString(input)

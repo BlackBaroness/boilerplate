@@ -10,4 +10,5 @@ include(
     "boilerplate-minecraft",
     "boilerplate-adventure",
     "boilerplate-paper",
+    "boilerplate-bungeecord",
 )
