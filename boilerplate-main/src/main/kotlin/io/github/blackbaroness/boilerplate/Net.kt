@@ -31,7 +31,8 @@ val ipv4AddressRegex by lazy {
 val String.isValidIpv4Address: Boolean
     get() = matches(ipv4AddressRegex)
 
-suspend fun findFreePort(): Int = withContext(Dispatchers.IO) {
+@Suppress("UnusedReceiverParameter")
+suspend fun Boilerplate.findFreePort(): Int = withContext(Dispatchers.IO) {
     val range = 20000..60000
     repeat(range.count()) {
         val port = range.random()
