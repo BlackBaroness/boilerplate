@@ -5,7 +5,6 @@ plugins {
 rootProject.name = "boilerplate"
 
 include(
-    "boilerplate-all",
     "boilerplate-main",
     "boilerplate-minecraft",
     "boilerplate-adventure",

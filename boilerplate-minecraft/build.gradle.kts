@@ -1,7 +1,7 @@
 @file:Suppress("VulnerableLibrariesLocal")
 
 plugins {
-    `kotlin-conventions`
+    `kotlin-conventions-jvm17`
     `publish-conventions`
 }
 
