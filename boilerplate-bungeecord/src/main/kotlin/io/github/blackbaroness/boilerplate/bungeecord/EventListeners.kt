@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import net.bytebuddy.ByteBuddy
 import net.bytebuddy.description.modifier.FieldManifestation
 import net.bytebuddy.description.modifier.Visibility
+import net.bytebuddy.dynamic.loading.ClassLoadingStrategy
 import net.bytebuddy.implementation.FieldAccessor
 import net.bytebuddy.implementation.MethodCall
 import net.md_5.bungee.api.event.AsyncEvent
@@ -107,5 +108,5 @@ private fun generateEventListenerClass(plugin: Plugin, key: EventClassKey): Clas
     .annotateMethod(EventHandler(priority = key.priority))
 
     .make()
-    .load(key.clazz.classLoader)
+    .load(key.clazz.classLoader, ClassLoadingStrategy.Default.INJECTION)
     .loaded
