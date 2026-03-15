@@ -82,33 +82,30 @@ fun <T : Event> provideEventListener(
     return Closeable { plugin.proxy.pluginManager.unregisterListener(listener) }
 }
 
-private fun generateEventListenerClass(plugin: Plugin, key: EventClassKey): Class<*> {
-    return ByteBuddy().subclass(Listener::class.java).run {
-        modifiers(Modifier.PUBLIC)
-        name("${plugin::class.java.packageName}.__generated__.Listener_${key.clazz.name}_${key.priority}")
+private fun generateEventListenerClass(plugin: Plugin, key: EventClassKey): Class<*> = ByteBuddy()
+    .subclass(Listener::class.java)
+    .modifiers(Modifier.PUBLIC)
+    .name("${plugin::class.java.packageName}.__generated__.Listener_${key.clazz.name}_${key.priority}")
+    .defineField("action", Consumer::class.java, Visibility.PRIVATE, FieldManifestation.FINAL)
 
-        defineField("action", Consumer::class.java, Visibility.PRIVATE, FieldManifestation.FINAL)
+    .defineConstructor(Visibility.PUBLIC)
+    .withParameter(Consumer::class.java)
+    .intercept(
+        MethodCall.invoke(Any::class.java.getConstructor())
+            .onSuper()
+            .andThen(FieldAccessor.ofField("action").setsArgumentAt(0))
+    )
 
-        defineConstructor(Visibility.PUBLIC)
-            .withParameter(Consumer::class.java)
-            .intercept(
-                MethodCall.invoke(Any::class.java.getConstructor())
-                    .onSuper()
-                    .andThen(FieldAccessor.ofField("action").setsArgumentAt(0))
-            )
+    .defineMethod("handleEvent", Void.TYPE, Modifier.PUBLIC)
+    .withParameters(key.clazz)
+    .intercept(
+        MethodCall
+            .invoke(Consumer::class.java.getMethod("accept", Any::class.java))
+            .onField("action")
+            .withArgument(0)
+    )
+    .annotateMethod(EventHandler(priority = key.priority))
 
-        defineMethod("handleEvent", Void.TYPE, Modifier.PUBLIC)
-            .withParameters(key.clazz)
-            .intercept(
-                MethodCall
-                    .invoke(Consumer::class.java.getMethod("accept", Any::class.java))
-                    .onField("action")
-                    .withArgument(0)
-            )
-            .annotateMethod(EventHandler(priority = key.priority))
-
-        make()
-            .load(plugin::class.java.classLoader)
-            .loaded
-    }
-}
+    .make()
+    .load(plugin::class.java.classLoader)
+    .loaded
