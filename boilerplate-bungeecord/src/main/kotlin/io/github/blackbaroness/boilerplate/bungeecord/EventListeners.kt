@@ -1,6 +1,7 @@
 package io.github.blackbaroness.boilerplate.bungeecord
 
 import com.github.shynixn.mccoroutine.bungeecord.launch
+import io.github.blackbaroness.boilerplate.Boilerplate
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import net.bytebuddy.ByteBuddy
@@ -25,15 +26,17 @@ import kotlin.reflect.KClass
 
 inline fun <reified EVENT : Event> Plugin.eventListener(
     priority: Byte = EventPriority.NORMAL,
+    classLoader: ClassLoader = Boilerplate::class.java.classLoader,
     noinline action: (EVENT) -> Unit,
-) = provideEventListener(this, EVENT::class, priority = priority, action = action)
+) = provideEventListener(this, EVENT::class, priority = priority, action = action, classLoader = classLoader)
 
 inline fun <reified EVENT : Event> Plugin.eventListenerAsync(
     priority: Byte = EventPriority.NORMAL,
     context: CoroutineContext = Dispatchers.Default,
     start: CoroutineStart = CoroutineStart.DEFAULT,
+    classLoader: ClassLoader = Boilerplate::class.java.classLoader,
     crossinline action: suspend (EVENT) -> Unit,
-) = provideEventListener(this, EVENT::class, priority = priority) { event ->
+) = provideEventListener(this, EVENT::class, priority = priority, classLoader = classLoader) { event ->
     launch(context, start) {
         action.invoke(event)
     }
@@ -43,8 +46,9 @@ inline fun <reified EVENT : AsyncEvent<*>> Plugin.eventListenerIntent(
     priority: Byte = EventPriority.NORMAL,
     context: CoroutineContext = Dispatchers.Default,
     start: CoroutineStart = CoroutineStart.DEFAULT,
+    classLoader: ClassLoader = Boilerplate::class.java.classLoader,
     crossinline action: suspend (EVENT) -> Unit,
-) = provideEventListener(this, EVENT::class, priority = priority) { event ->
+) = provideEventListener(this, EVENT::class, priority = priority, classLoader = classLoader) { event ->
     event.registerIntent(this)
     try {
         launch(context, start) {
@@ -69,10 +73,12 @@ fun <T : Event> provideEventListener(
     plugin: Plugin,
     eventClass: KClass<T>,
     priority: Byte = EventPriority.NORMAL,
+    classLoader: ClassLoader = Boilerplate::class.java.classLoader,
     action: (T) -> Unit,
 ): Closeable {
-    val listenerClass = eventListenerCache
-        .computeIfAbsent(EventClassKey(eventClass.java, priority)) { key -> generateEventListenerClass(plugin, key) }
+    val listenerClass = eventListenerCache.computeIfAbsent(EventClassKey(eventClass.java, priority)) { key ->
+        generateEventListenerClass(plugin, key, classLoader)
+    }
 
     val listener = listenerClass
         .getConstructor(Consumer::class.java)
@@ -83,7 +89,11 @@ fun <T : Event> provideEventListener(
     return Closeable { plugin.proxy.pluginManager.unregisterListener(listener) }
 }
 
-private fun generateEventListenerClass(plugin: Plugin, key: EventClassKey): Class<*> = ByteBuddy()
+private fun generateEventListenerClass(
+    plugin: Plugin,
+    key: EventClassKey,
+    classLoader: ClassLoader
+): Class<*> = ByteBuddy()
     .subclass(Listener::class.java)
     .modifiers(Modifier.PUBLIC)
     .name("${plugin::class.java.packageName}.__generated__.Listener_${key.clazz.name}_${key.priority.toHexString()}")
@@ -108,5 +118,5 @@ private fun generateEventListenerClass(plugin: Plugin, key: EventClassKey): Clas
     .annotateMethod(EventHandler(priority = key.priority))
 
     .make()
-    .load(key.clazz.classLoader, ClassLoadingStrategy.Default.INJECTION)
+    .load(classLoader)
     .loaded
