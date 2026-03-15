@@ -107,5 +107,5 @@ private fun generateEventListenerClass(plugin: Plugin, key: EventClassKey): Clas
     .annotateMethod(EventHandler(priority = key.priority))
 
     .make()
-    .load(plugin::class.java.classLoader)
+    .load(key.clazz.classLoader)
     .loaded
