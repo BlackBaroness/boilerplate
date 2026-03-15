@@ -85,7 +85,7 @@ fun <T : Event> provideEventListener(
 private fun generateEventListenerClass(plugin: Plugin, key: EventClassKey): Class<*> = ByteBuddy()
     .subclass(Listener::class.java)
     .modifiers(Modifier.PUBLIC)
-    .name("${plugin::class.java.packageName}.__generated__.Listener_${key.clazz.name}_${key.priority}")
+    .name("${plugin::class.java.packageName}.__generated__.Listener_${key.clazz.name}_${key.priority.toHexString()}")
     .defineField("action", Consumer::class.java, Visibility.PRIVATE, FieldManifestation.FINAL)
 
     .defineConstructor(Visibility.PUBLIC)
