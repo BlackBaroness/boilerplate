@@ -69,8 +69,16 @@ private fun <T : Any> loadYamlConfigurationFile0(
     default: () -> T,
     clazz: KClass<T>,
 ): T {
+    fun decode(text: String): T {
+        return try {
+            yaml.decodeFromString(serializer, text)
+        } catch (e: Throwable) {
+            throw IllegalStateException("Failed to parse YAML. Full text:\n$text", e)
+        }
+    }
+
     var result = if (file.exists()) {
-        yaml.decodeFromString(serializer, file.readText())
+        decode(file.readText())
     } else {
         default.invoke()
     }
@@ -82,7 +90,7 @@ private fun <T : Any> loadYamlConfigurationFile0(
         text = removeNullFields(text)
     }
 
-    result = yaml.decodeFromString(serializer, text)
+    result = decode(text)
 
     dirtyFile.createParentDirectories()
     dirtyFile.writeText(text, options = arrayOf(StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING))
