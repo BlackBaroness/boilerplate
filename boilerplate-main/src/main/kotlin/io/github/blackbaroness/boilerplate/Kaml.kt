@@ -75,7 +75,7 @@ private fun <T : Any> loadYamlConfigurationFile0(
         default.invoke()
     }
 
-    var text = extractHeaderLines(clazz).joinToString(separator = "\n", postfix = "\n")
+    var text = extractHeaderLines(clazz).joinToString(prefix = "# ", separator = "\n# ", postfix = "\n")
     text += yaml.encodeToString(serializer, result)
     text = replaceEmptyCommentsWithEmptyLines(text)
     if (removeNulls) {
