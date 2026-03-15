@@ -7,12 +7,12 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-object IntRangeStringSerializer : KSerializer<IntRange> {
+class IntRangeStringSerializer : KSerializer<IntRange> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(this::class.qualifiedName!!, PrimitiveKind.STRING)
 
-    private const val DELIMITER = ".."
+    private val delimiter = ".."
 
     override fun serialize(encoder: Encoder, value: IntRange) {
         value.singleOrNull()?.also {
@@ -20,12 +20,12 @@ object IntRangeStringSerializer : KSerializer<IntRange> {
             return
         }
 
-        encoder.encodeString(value.first.toString() + DELIMITER + value.last)
+        encoder.encodeString(value.first.toString() + delimiter + value.last)
     }
 
     override fun deserialize(decoder: Decoder): IntRange {
         val str = decoder.decodeString()
-        val split = str.split(DELIMITER)
+        val split = str.split(delimiter)
 
         if (split.size == 1)
             return str.toIntOrNull()?.let { IntRange(it, it) } ?: invalidInput(str)
@@ -42,5 +42,4 @@ object IntRangeStringSerializer : KSerializer<IntRange> {
     private fun invalidInput(str: String): Nothing {
         throw IllegalArgumentException("'$str' is not valid int range")
     }
-
 }

@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.Registry
 import org.bukkit.Sound
 
-object SoundStringSerializer : KeyedSerializer<Sound>(Sound::class) {
+class SoundStringSerializer : KeyedSerializer<Sound>(Sound::class) {
 
     override fun resolveEntityFromKey(key: NamespacedKey): Sound {
         return Registry.SOUNDS.get(key)

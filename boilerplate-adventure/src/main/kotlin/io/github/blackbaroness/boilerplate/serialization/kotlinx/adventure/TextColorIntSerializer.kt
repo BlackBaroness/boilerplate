@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import net.kyori.adventure.text.format.TextColor
 
-object TextColorIntSerializer : KSerializer<TextColor> {
+class TextColorIntSerializer : KSerializer<TextColor> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(TextColor::class.qualifiedName!!, PrimitiveKind.INT)
@@ -20,20 +20,3 @@ object TextColorIntSerializer : KSerializer<TextColor> {
     override fun deserialize(decoder: Decoder): TextColor =
         TextColor.color(decoder.decodeInt())
 }
-
-object TextColorHexSerializer : KSerializer<TextColor> {
-
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor(TextColor::class.qualifiedName!!, PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: TextColor) {
-        encoder.encodeString(value.asHexString())
-    }
-
-    override fun deserialize(decoder: Decoder): TextColor {
-        val hex = decoder.decodeString()
-        return TextColor.fromHexString(hex)
-            ?: throw IllegalArgumentException("Invalid TextColor hex: '$hex'")
-    }
-}
-

@@ -69,3 +69,4 @@ kaml = { module = "com.charleskorn.kaml:kaml", version = "0.104.0" }
 mysql = { module = "com.mysql:mysql-connector-j", version = "9.6.0" }
 hikaricp = { module = "com.zaxxer:HikariCP", version = "7.0.2" }
 sqlite = { module = "org.xerial:sqlite-jdbc", version = "3.51.2.0" }
+ipaddress = { module = "com.github.seancfoley:ipaddress", version = "5.6.1" }

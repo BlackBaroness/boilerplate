@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.Registry
 import org.bukkit.entity.EntityType
 
-object EntityTypeStringSerializer : KeyedSerializer<EntityType>(EntityType::class) {
+class EntityTypeStringSerializer : KeyedSerializer<EntityType>(EntityType::class) {
 
     override fun resolveEntityFromKey(key: NamespacedKey): EntityType {
         return Registry.ENTITY_TYPE.get(key)

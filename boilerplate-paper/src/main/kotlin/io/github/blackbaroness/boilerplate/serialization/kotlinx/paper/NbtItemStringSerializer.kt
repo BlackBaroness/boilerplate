@@ -9,7 +9,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-object NbtItemStringSerializer : KSerializer<NbtItem> {
+class NbtItemStringSerializer : KSerializer<NbtItem> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(NbtItem::class.qualifiedName!!, PrimitiveKind.STRING)

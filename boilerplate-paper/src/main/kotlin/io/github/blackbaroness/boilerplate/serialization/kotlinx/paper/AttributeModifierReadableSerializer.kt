@@ -8,7 +8,7 @@ import org.bukkit.inventory.EquipmentSlot
 import java.util.*
 
 @Suppress("DEPRECATION", "removal")
-object AttributeModifierReadableSerializer :
+class AttributeModifierReadableSerializer :
     SurrogateSerializer<AttributeModifier, AttributeModifierReadableSerializer.Surrogate>(
         Surrogate.serializer(),
         AttributeModifier::class

@@ -7,7 +7,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-object CharStringSerializer : KSerializer<Char> {
+class CharStringSerializer : KSerializer<Char> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor("${Char::class.qualifiedName}_asString", PrimitiveKind.STRING)

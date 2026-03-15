@@ -1,5 +1,7 @@
 package io.github.blackbaroness.boilerplate.sql
 
+import io.github.blackbaroness.boilerplate.Boilerplate
+import io.github.blackbaroness.boilerplate.WRITE_ONLY_MESSAGE
 import io.github.blackbaroness.boilerplate.writeOnly
 import jakarta.persistence.AttributeConverter
 import org.hibernate.*
@@ -102,7 +104,7 @@ fun <T> SessionFactory.registerListener(type: EventType<T>, listener: T) {
 @DslMarker
 annotation class HibernateDsl
 
-fun createSessionFactory(action: SessionFactoryBuilder.() -> Unit): SessionFactory {
+fun Boilerplate.createSessionFactory(action: SessionFactoryBuilder.() -> Unit): SessionFactory {
     return SessionFactoryBuilder().apply(action).build()
 }
 
@@ -163,6 +165,7 @@ class BootstrapRegistryConfigurator {
 
     val wrapped = BootstrapServiceRegistryBuilder()
 
+    @get:Deprecated(message = "This property is write-only", level = DeprecationLevel.ERROR)
     var classLoader by writeOnly<ClassLoader> {
         wrapped.applyClassLoader(it)
     }
@@ -175,86 +178,107 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
 
     val wrapped = StandardServiceRegistryBuilder(registry)
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var jdbcUrl by writeOnly<String> {
         wrapped.applySetting(Environment.JAKARTA_JDBC_URL, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var jdbcUser by writeOnly<String> {
         wrapped.applySetting(Environment.JAKARTA_JDBC_USER, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var jdbcPassword by writeOnly<String> {
         wrapped.applySetting(Environment.JAKARTA_JDBC_PASSWORD, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var jdbcDriver by writeOnly<KClass<out Driver>> {
         wrapped.applySetting(Environment.JAKARTA_JDBC_DRIVER, it.java.name)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var dialect by writeOnly<KClass<out Dialect>> {
         wrapped.applySetting(Environment.DIALECT, it.java.name)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var connectionProvider by writeOnly<KClass<out ConnectionProvider>> {
         wrapped.applySetting(Environment.CONNECTION_PROVIDER, it.java.name)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hbm2ddlAuto by writeOnly<Action> {
         wrapped.applySetting(Environment.HBM2DDL_AUTO, it.externalHbm2ddlName)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var statementBatchSize by writeOnly<Int> {
         wrapped.applySetting(Environment.STATEMENT_BATCH_SIZE, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var defaultBatchFetchSize by writeOnly<Int> {
         wrapped.applySetting(Environment.DEFAULT_BATCH_FETCH_SIZE, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var orderInserts by writeOnly<Boolean> {
         wrapped.applySetting(Environment.ORDER_INSERTS, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var orderUpdates by writeOnly<Boolean> {
         wrapped.applySetting(Environment.ORDER_UPDATES, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var inClauseParameterPadding by writeOnly<Boolean> {
         wrapped.applySetting(Environment.IN_CLAUSE_PARAMETER_PADDING, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var queryPlanCacheMaxSize by writeOnly<Int> {
         wrapped.applySetting(Environment.QUERY_PLAN_CACHE_MAX_SIZE, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var autocommit by writeOnly<Boolean> {
         wrapped.applySetting(Environment.AUTOCOMMIT, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var connectionProviderDisablesAutocommit by writeOnly<Boolean> {
         wrapped.applySetting(Environment.CONNECTION_PROVIDER_DISABLES_AUTOCOMMIT, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var keywordAutoQuoting by writeOnly<Boolean> {
         wrapped.applySetting(Environment.KEYWORD_AUTO_QUOTING_ENABLED, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var globallyQuotedIdentifiers by writeOnly<Boolean> {
         wrapped.applySetting(Environment.GLOBALLY_QUOTED_IDENTIFIERS, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var isolation by writeOnly<Int> {
         wrapped.applySetting(Environment.ISOLATION, it)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hikariMaxLifetime by writeOnly<Duration> {
         wrapped.applySetting(HikariCPSettings.HIKARI_MAX_LIFETIME, it.inWholeMilliseconds)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hikariIdleTimeout by writeOnly<Duration> {
         wrapped.applySetting(HikariCPSettings.HIKARI_IDLE_TIMEOUT, it.inWholeMilliseconds)
     }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hikariPoolName by writeOnly<String> {
         wrapped.applySetting(HikariCPSettings.HIKARI_POOL_NAME, it)
     }

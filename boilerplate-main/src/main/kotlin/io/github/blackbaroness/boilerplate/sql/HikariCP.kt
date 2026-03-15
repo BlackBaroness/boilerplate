@@ -1,6 +1,7 @@
 package io.github.blackbaroness.boilerplate.sql
 
 import com.zaxxer.hikari.HikariConfig
+import io.github.blackbaroness.boilerplate.WRITE_ONLY_MESSAGE
 import io.github.blackbaroness.boilerplate.writeOnly
 import org.h2.Driver
 import org.sqlite.JDBC
@@ -18,12 +19,16 @@ inline fun HikariConfig.configure(action: HikariConfigConfigurator.() -> Unit): 
 @HikariDsl
 class HikariConfigConfigurator(val wrapped: HikariConfig) {
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var username by writeOnly<String> { wrapped.username = it }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var password by writeOnly<String> { wrapped.password = it }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var poolName by writeOnly<String> { wrapped.poolName = it }
 
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var leakDetectionThreshold by writeOnly<Duration> {
         wrapped.leakDetectionThreshold = it.inWholeMilliseconds
     }

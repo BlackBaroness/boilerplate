@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.util.*
 
-object LocaleStringSerializer : KSerializer<Locale> {
+class LocaleStringSerializer : KSerializer<Locale> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(Locale::class.qualifiedName!!, PrimitiveKind.STRING)

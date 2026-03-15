@@ -10,7 +10,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.Duration
 
-object DurationStringSerializer : KSerializer<Duration> {
+class DurationStringSerializer : KSerializer<Duration> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(Duration::class.qualifiedName!!, PrimitiveKind.STRING)

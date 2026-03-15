@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.awt.Color
 
-object ColorIntSerializer : KSerializer<Color> {
+class ColorIntSerializer : KSerializer<Color> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(Color::class.qualifiedName!!, PrimitiveKind.INT)

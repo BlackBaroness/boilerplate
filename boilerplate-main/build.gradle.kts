@@ -52,4 +52,6 @@ dependencies {
 
     // Compression
     compileOnly(libs.zstd)
+
+    compileOnly(libs.ipaddress)
 }

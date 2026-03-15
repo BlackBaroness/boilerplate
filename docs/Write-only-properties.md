@@ -10,5 +10,11 @@ var property by writeOnly<Type> {
 
 If a user tries to get the property, the property throws `NotImplementedError`.
 
-It's a **questionable** solution, since it's not possible to reject read attempts at compile time. You should be careful
-creating and using these.
+To prevent calling get in compile time, you can do the following:
+
+```kotlin
+@get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+var property by writeOnly<Type> {
+    TODO("this is your setter, use $it here")
+}
+```

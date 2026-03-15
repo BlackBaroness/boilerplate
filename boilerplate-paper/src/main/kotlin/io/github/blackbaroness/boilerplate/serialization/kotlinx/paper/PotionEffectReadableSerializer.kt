@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-object PotionEffectReadableSerializer : SurrogateSerializer<PotionEffect, PotionEffectReadableSerializer.Surrogate>(
+class PotionEffectReadableSerializer : SurrogateSerializer<PotionEffect, PotionEffectReadableSerializer.Surrogate>(
     Surrogate.serializer(),
     PotionEffect::class
 ) {

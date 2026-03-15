@@ -6,7 +6,7 @@ import org.bukkit.persistence.PersistentDataAdapterContext
 import org.bukkit.persistence.PersistentDataType
 import java.util.*
 
-object UuidPersistentDataType : PersistentDataType<ByteArray, UUID> {
+class UuidPersistentDataType : PersistentDataType<ByteArray, UUID> {
 
     override fun getPrimitiveType() = ByteArray::class.java
 

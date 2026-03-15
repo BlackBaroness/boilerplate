@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.Registry
 import org.bukkit.attribute.Attribute
 
-object AttributeStringSerializer : KeyedSerializer<Attribute>(Attribute::class) {
+class AttributeStringSerializer : KeyedSerializer<Attribute>(Attribute::class) {
 
     override fun resolveEntityFromKey(key: NamespacedKey): Attribute {
         return Registry.ATTRIBUTE.get(key)

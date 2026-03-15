@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.Registry
 import org.bukkit.potion.PotionEffectType
 
-object PotionEffectTypeStringSerializer : KeyedSerializer<PotionEffectType>(PotionEffectType::class) {
+class PotionEffectTypeStringSerializer : KeyedSerializer<PotionEffectType>(PotionEffectType::class) {
 
     override fun resolveEntityFromKey(key: NamespacedKey): PotionEffectType {
         return Registry.POTION_EFFECT_TYPE.get(key)

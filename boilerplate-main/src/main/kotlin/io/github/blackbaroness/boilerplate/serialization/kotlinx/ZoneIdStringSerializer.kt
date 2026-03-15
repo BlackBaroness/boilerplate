@@ -8,7 +8,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.ZoneId
 
-object ZoneIdStringSerializer : KSerializer<ZoneId> {
+class ZoneIdStringSerializer : KSerializer<ZoneId> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(ZoneId::class.qualifiedName!!, PrimitiveKind.STRING)

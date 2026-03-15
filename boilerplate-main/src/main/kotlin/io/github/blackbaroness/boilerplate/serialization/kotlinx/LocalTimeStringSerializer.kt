@@ -10,7 +10,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalQueries
 
-object LocalTimeStringSerializer : KSerializer<LocalTime> {
+class LocalTimeStringSerializer : KSerializer<LocalTime> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(LocalTime::class.qualifiedName!!, PrimitiveKind.STRING)
