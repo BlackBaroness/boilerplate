@@ -15,15 +15,15 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(25)
+    jvmToolchain(21)
 }
 
 tasks.withType<JavaCompile> {
-    options.release = 24
+    options.release = 21
 }
 
 tasks.withType<KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_24
+    compilerOptions.jvmTarget = JvmTarget.JVM_21
 }
 
 fun plugin(plugin: Provider<PluginDependency>): Provider<String> =
