@@ -2,9 +2,11 @@ package io.github.blackbaroness.boilerplate.paper
 
 import io.github.blackbaroness.boilerplate.Boilerplate
 import org.bukkit.NamespacedKey
+import org.bukkit.Server
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import org.slf4j.Logger
+import java.io.InputStream
 
 @Suppress("ObjectPropertyName")
 private var _logger: Logger? = null
@@ -28,3 +30,11 @@ fun Boilerplate.resolveNamespacedKey(input: String): NamespacedKey? =
 
 val NamespacedKey.asMinimalString
     get() = if (namespace == NamespacedKey.MINECRAFT) key else asString()
+
+fun Plugin.getResourceOrThrow(name: String): InputStream {
+    return getResource("jcache.conf") ?: error("jcache.conf is missing")
+}
+
+inline fun <reified T> Server.findService(): T? {
+    return servicesManager.getRegistration(T::class.java)?.provider
+}

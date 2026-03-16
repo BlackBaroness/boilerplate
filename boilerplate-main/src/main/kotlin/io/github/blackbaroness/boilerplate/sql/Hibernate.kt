@@ -2,6 +2,7 @@ package io.github.blackbaroness.boilerplate.sql
 
 import io.github.blackbaroness.boilerplate.Boilerplate
 import io.github.blackbaroness.boilerplate.WRITE_ONLY_MESSAGE
+import io.github.blackbaroness.boilerplate.copyAndClose
 import io.github.blackbaroness.boilerplate.writeOnly
 import jakarta.persistence.AttributeConverter
 import org.hibernate.*
@@ -12,6 +13,9 @@ import org.hibernate.boot.registry.BootstrapServiceRegistry
 import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder
 import org.hibernate.boot.registry.StandardServiceRegistry
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder
+import org.hibernate.cache.jcache.ConfigSettings
+import org.hibernate.cache.jcache.MissingCacheStrategy
+import org.hibernate.cache.spi.RegionFactory
 import org.hibernate.cfg.Environment
 import org.hibernate.cfg.HikariCPSettings
 import org.hibernate.dialect.Dialect
@@ -19,13 +23,21 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider
 import org.hibernate.engine.spi.SessionFactoryImplementor
 import org.hibernate.event.service.spi.EventListenerRegistry
 import org.hibernate.event.spi.EventType
+import org.hibernate.proxy.HibernateProxy
 import org.hibernate.query.Query
 import org.hibernate.tool.schema.Action
 import java.io.File
+import java.io.InputStream
+import java.net.URI
 import java.nio.file.Path
 import java.sql.Driver
+import java.util.*
 import java.util.stream.Stream
+import javax.cache.spi.CachingProvider
 import kotlin.io.path.absolutePathString
+import kotlin.io.path.createDirectories
+import kotlin.io.path.createTempFile
+import kotlin.io.path.outputStream
 import kotlin.reflect.KClass
 import kotlin.time.Duration
 
@@ -99,6 +111,21 @@ fun <T> SessionFactory.registerListener(type: EventType<T>, listener: T) {
         .serviceRegistry
         .getService(EventListenerRegistry::class.java)!!
         .appendListeners(type, listener)
+}
+
+inline fun <reified T : Any> T.hibernateEquals(other: Any?, equals: (T) -> Boolean): Boolean {
+    if (this === other) return true
+    if (other == null) return false
+    val oEffectiveClass =
+        if (other is HibernateProxy) other.hibernateLazyInitializer.persistentClass else other.javaClass
+    val thisEffectiveClass =
+        if (this is HibernateProxy) this.hibernateLazyInitializer.persistentClass else this.javaClass
+    if (thisEffectiveClass != oEffectiveClass) return false
+    return equals.invoke(other as T)
+}
+
+fun Any.hibernateHashCode(id: Any?): Int {
+    return if (id != null) Objects.hash(id) else System.identityHashCode(this)
 }
 
 @DslMarker
@@ -200,12 +227,12 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var dialect by writeOnly<KClass<out Dialect>> {
-        wrapped.applySetting(Environment.DIALECT, it.java.name)
+        wrapped.applySetting(Environment.DIALECT, it.java)
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var connectionProvider by writeOnly<KClass<out ConnectionProvider>> {
-        wrapped.applySetting(Environment.CONNECTION_PROVIDER, it.java.name)
+        wrapped.applySetting(Environment.CONNECTION_PROVIDER, it.java)
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
@@ -269,6 +296,16 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var useSecondLevelCaching by writeOnly<Boolean> {
+        wrapped.applySetting(Environment.USE_SECOND_LEVEL_CACHE, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var cacheRegionFactory by writeOnly<KClass<out RegionFactory>> {
+        wrapped.applySetting(Environment.CACHE_REGION_FACTORY, it.java)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hikariMaxLifetime by writeOnly<Duration> {
         wrapped.applySetting(HikariCPSettings.HIKARI_MAX_LIFETIME, it.inWholeMilliseconds)
     }
@@ -281,6 +318,21 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hikariPoolName by writeOnly<String> {
         wrapped.applySetting(HikariCPSettings.HIKARI_POOL_NAME, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var jcacheProvider by writeOnly<KClass<out CachingProvider>> {
+        wrapped.applySetting(ConfigSettings.PROVIDER, it.java)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var jcacheMissingCacheStrategy by writeOnly<MissingCacheStrategy> {
+        wrapped.applySetting(ConfigSettings.MISSING_CACHE_STRATEGY, it.externalRepresentation)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var jcacheConfigUri by writeOnly<URI> {
+        wrapped.applySetting(ConfigSettings.CONFIG_URI, it)
     }
 
     fun h2(
@@ -356,6 +408,30 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
             append(config.parameters.joinToString(prefix = "?", separator = "&"))
         }
         jdbcDriver = org.postgresql.Driver::class
+    }
+
+    fun attachJCacheConfigFile(text: String, temporaryDir: Path? = null, deleteOnExit: Boolean = true) {
+        attachJCacheConfigFile(
+            inputStream = text.byteInputStream(),
+            temporaryDir = temporaryDir,
+            deleteOnExit = deleteOnExit
+        )
+    }
+
+    fun attachJCacheConfigFile(inputStream: InputStream, temporaryDir: Path? = null, deleteOnExit: Boolean = true) {
+        temporaryDir?.createDirectories()
+        val file = createTempFile(prefix = "jcache.conf", directory = temporaryDir)
+
+        if (deleteOnExit) {
+            file.toFile().deleteOnExit()
+        }
+
+        copyAndClose(inputStream, file.outputStream())
+        attachJCacheConfigFile(file)
+    }
+
+    fun attachJCacheConfigFile(file: Path) {
+        jcacheConfigUri = file.toUri()
     }
 
     internal fun build(): StandardServiceRegistry = wrapped.build()

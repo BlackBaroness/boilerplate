@@ -1,9 +1,11 @@
 package io.github.blackbaroness.boilerplate.paper
 
+import io.github.blackbaroness.boilerplate.Boilerplate
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import kotlin.math.min
 
 val ItemStack?.isInvalid: Boolean
     get() = this == null || this.type == Material.AIR || this.amount < 1
@@ -36,4 +38,20 @@ fun HumanEntity.giveOrDrop(vararg items: ItemStack, allowOthersPickup: Boolean =
 
 fun HumanEntity.giveOrDrop(items: Collection<ItemStack>, allowOthersPickup: Boolean = false, willAge: Boolean = false) {
     giveOrDrop(items.toTypedArray(), allowOthersPickup = allowOthersPickup, willAge = willAge)
+}
+
+fun Boilerplate.createItemStacks(reference: ItemStack, amount: Int): List<ItemStack> = buildList {
+    var created = 0
+    while (true) {
+        val left = amount - created
+        if (left < 1) break
+
+        val thisStackSize = min(left, reference.maxStackSize)
+        add(reference.clone(thisStackSize))
+        created += thisStackSize
+    }
+}
+
+fun ItemStack.clone(amount: Int): ItemStack {
+    return clone().also { it.amount = amount }
 }

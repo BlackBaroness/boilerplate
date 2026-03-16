@@ -1,13 +1,12 @@
 [versions]
-minecraft-v1_v16_v5 = "1.16.5-R0.1-SNAPSHOT"
-minecraft-v1_v21_v4 = "1.21.4-R0.1-SNAPSHOT"
+kotlin = "2.3.20"
 adventure = "4.26.1"
 adventure-platforms = "4.4.1"
 invui = "1.49"
 guice = "7.0.0"
 litecommands = "3.10.9"
 mccoroutine = "2.22.0"
-hibernate = "7.2.6.Final"
+hibernate = "7.2.7.Final"
 
 [libraries]
 # KotlinX
@@ -48,6 +47,7 @@ mccoroutine-folia = { module = "com.github.shynixn.mccoroutine:mccoroutine-folia
 # Hibernate
 hibernate-core = { module = "org.hibernate.orm:hibernate-core", version.ref = "hibernate" }
 hibernate-hikaricp = { module = "org.hibernate.orm:hibernate-hikaricp", version.ref = "hibernate" }
+hibernate-jcache = { module = "org.hibernate.orm:hibernate-jcache", version.ref = "hibernate" }
 
 # Misc
 durationserializer = { module = "io.github.blackbaroness:duration-serializer", version = "2.0.2" }
@@ -58,7 +58,6 @@ postgresql = { module = "org.postgresql:postgresql", version = "42.7.10" }
 bungeecord = { module = "net.md-5:bungeecord-api", version = "1.21-R0.4" }
 bytebuddy = { module = "net.bytebuddy:byte-buddy", version = "1.18.7" }
 placeholderapi = { module = "me.clip:placeholderapi", version = "2.12.2" }
-rocksdb = { module = "org.rocksdb:rocksdbjni", version = "10.4.2" }
 redisson = { module = "org.redisson:redisson", version = "4.3.0" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3" }
 luckperms = { module = "net.luckperms:api", version = "5.5" }
@@ -70,3 +69,7 @@ mysql = { module = "com.mysql:mysql-connector-j", version = "9.6.0" }
 hikaricp = { module = "com.zaxxer:HikariCP", version = "7.0.2" }
 sqlite = { module = "org.xerial:sqlite-jdbc", version = "3.51.2.0" }
 ipaddress = { module = "com.github.seancfoley:ipaddress", version = "5.6.1" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

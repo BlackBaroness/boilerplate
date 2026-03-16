@@ -60,3 +60,7 @@ fun <T> Collection<T>.joinToStringWithSmartSeparators(
         }
     }
 }
+
+inline fun <T, reified R> List<T>.mapToArray(transform: (T) -> R): Array<R> {
+    return Array(size) { index -> transform.invoke(this[index]) }
+}

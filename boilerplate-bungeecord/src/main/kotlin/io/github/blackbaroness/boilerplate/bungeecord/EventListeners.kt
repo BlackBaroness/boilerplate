@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import net.bytebuddy.ByteBuddy
 import net.bytebuddy.description.modifier.FieldManifestation
 import net.bytebuddy.description.modifier.Visibility
-import net.bytebuddy.dynamic.loading.ClassLoadingStrategy
 import net.bytebuddy.implementation.FieldAccessor
 import net.bytebuddy.implementation.MethodCall
 import net.md_5.bungee.api.event.AsyncEvent
@@ -92,7 +91,7 @@ fun <T : Event> provideEventListener(
 private fun generateEventListenerClass(
     plugin: Plugin,
     key: EventClassKey,
-    classLoader: ClassLoader
+    classLoader: ClassLoader,
 ): Class<*> = ByteBuddy()
     .subclass(Listener::class.java)
     .modifiers(Modifier.PUBLIC)

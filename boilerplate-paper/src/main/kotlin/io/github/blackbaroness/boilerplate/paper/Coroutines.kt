@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import org.bukkit.plugin.Plugin
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.time.Duration
 
 fun <T> Plugin.lazy(
     context: CoroutineContext = EmptyCoroutineContext,
@@ -24,5 +25,27 @@ fun Plugin.after(
 ): DisposableHandle = job.invokeOnCompletion { cause ->
     this.launch(dispatcher) {
         action.invoke(cause)
+    }
+}
+
+fun Plugin.ticker(
+    period: Duration,
+    context: CoroutineContext = Dispatchers.Default,
+    action: suspend () -> Unit,
+): Job = ticker({ period }, context, action)
+
+fun Plugin.ticker(
+    period: () -> Duration,
+    context: CoroutineContext = Dispatchers.Default,
+    action: suspend () -> Unit,
+) = launch(context) {
+    while (isActive) {
+        try {
+            action.invoke()
+        } catch (e: Throwable) {
+            slF4JLogger.error("Error in ticker", e)
+        }
+
+        delay(period.invoke())
     }
 }

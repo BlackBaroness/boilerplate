@@ -24,6 +24,7 @@ dependencies {
     // Hibernate
     compileOnly(libs.hibernate.core)
     compileOnly(libs.hibernate.hikaricp)
+    compileOnly(libs.hibernate.jcache)
 
     // SQL
     compileOnly(libs.hikaricp)
@@ -34,7 +35,6 @@ dependencies {
     compileOnly(libs.sqlite)
 
     // NoSQL
-    compileOnly(libs.rocksdb)
     compileOnly(libs.redisson)
 
     // Dependency injection
