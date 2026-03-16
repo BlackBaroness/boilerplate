@@ -113,19 +113,34 @@ fun <T> SessionFactory.registerListener(type: EventType<T>, listener: T) {
         .appendListeners(type, listener)
 }
 
-inline fun <reified T : Any> T.hibernateEquals(other: Any?, equals: (T) -> Boolean): Boolean {
-    if (this === other) return true
+inline fun <reified T : Any> Boilerplate.hibernateEquals(obj: T, other: Any?, equals: (T) -> Boolean): Boolean {
+    if (obj === other) return true
     if (other == null) return false
-    val oEffectiveClass =
-        if (other is HibernateProxy) other.hibernateLazyInitializer.persistentClass else other.javaClass
-    val thisEffectiveClass =
-        if (this is HibernateProxy) this.hibernateLazyInitializer.persistentClass else this.javaClass
+
+    val thisEffectiveClass = if (obj is HibernateProxy) {
+        obj.hibernateLazyInitializer.persistentClass
+    } else {
+        obj.javaClass
+    }
+
+    val oEffectiveClass = if (other is HibernateProxy) {
+        other.hibernateLazyInitializer.persistentClass
+    } else {
+        other.javaClass
+    }
+
     if (thisEffectiveClass != oEffectiveClass) return false
     return equals.invoke(other as T)
 }
 
-fun Any.hibernateHashCode(id: Any?): Int {
-    return if (id != null) Objects.hash(id) else System.identityHashCode(this)
+@Suppress("UnusedReceiverParameter")
+fun Boilerplate.hibernateHashCode(obj: Any, id: Any?): Int {
+    return if (id != null) Objects.hash(id) else System.identityHashCode(obj)
+}
+
+@Suppress("UnusedReceiverParameter")
+fun Boilerplate.hibernateHashCode(vararg ids: Any): Int {
+    return Objects.hash(*ids)
 }
 
 @DslMarker
