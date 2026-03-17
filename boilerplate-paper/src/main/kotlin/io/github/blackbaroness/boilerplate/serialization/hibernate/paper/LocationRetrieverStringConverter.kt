@@ -1,10 +1,10 @@
 package io.github.blackbaroness.boilerplate.serialization.hibernate.paper
 
-import io.github.blackbaroness.boilerplate.paper.model.LocationRetriever
+import io.github.blackbaroness.boilerplate.paper.LocationRetriever
 import jakarta.persistence.AttributeConverter
 import kotlinx.serialization.json.Json
 
-class LocationRetrieverConverter : AttributeConverter<LocationRetriever, String> {
+class LocationRetrieverStringConverter : AttributeConverter<LocationRetriever, String> {
 
     override fun convertToDatabaseColumn(value: LocationRetriever?): String? =
         value?.let { Json.encodeToString(it) }

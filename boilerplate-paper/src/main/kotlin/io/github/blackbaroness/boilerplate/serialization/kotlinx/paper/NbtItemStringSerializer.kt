@@ -1,7 +1,7 @@
 package io.github.blackbaroness.boilerplate.serialization.kotlinx.paper
 
 import de.tr7zw.nbtapi.NBT
-import io.github.blackbaroness.boilerplate.paper.model.NbtItem
+import io.github.blackbaroness.boilerplate.paper.NbtItem
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

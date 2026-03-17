@@ -1,4 +1,4 @@
-package io.github.blackbaroness.boilerplate.paper.model
+package io.github.blackbaroness.boilerplate.paper
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json

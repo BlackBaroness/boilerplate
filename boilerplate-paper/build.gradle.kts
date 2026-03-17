@@ -56,4 +56,5 @@ dependencies {
     compileOnly(libs.guice.assistedinject)
     compileOnly(libs.kotlinx.serialization.json)
     compileOnly(libs.caffeine)
+    compileOnly(libs.kaml)
 }

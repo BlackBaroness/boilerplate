@@ -28,6 +28,8 @@ class directly, like `InetAddress.asInt`.
 - [Write-only properties](docs/Write-only-properties.md)
 - [HikariCP builder](docs/HikariCP-builder.md)
 - Message brokers backed by `BungeeCord` channels or Redis, using `kotlinx.serialization` and `zstd` compression.
+- [Item configuration](docs/Item-configuration.md)
+- [Menu configuration](docs/Menu-configuration.md)
 
 ---
 

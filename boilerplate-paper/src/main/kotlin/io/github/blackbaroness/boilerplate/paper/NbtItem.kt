@@ -1,4 +1,4 @@
-package io.github.blackbaroness.boilerplate.paper.model
+package io.github.blackbaroness.boilerplate.paper
 
 import de.tr7zw.nbtapi.NBT
 

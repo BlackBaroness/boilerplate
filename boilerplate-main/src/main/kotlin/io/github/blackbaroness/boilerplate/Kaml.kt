@@ -87,7 +87,7 @@ private fun <T : Any> loadYamlConfigurationFile0(
     text += yaml.encodeToString(serializer, result)
     text = replaceEmptyCommentsWithEmptyLines(text)
     if (removeNulls) {
-        text = removeNullFields(text)
+        text = Boilerplate.removeNullFieldsInYamlText(text)
     }
 
     result = decode(text)
@@ -113,7 +113,7 @@ private fun replaceEmptyCommentsWithEmptyLines(text: String): String = buildStri
     }
 }
 
-private fun removeNullFields(text: String): String {
+fun Boilerplate.removeNullFieldsInYamlText(text: String): String {
     val lines = text.lines()
     val out = StringBuilder()
     var i = 0

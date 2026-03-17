@@ -1,4 +1,4 @@
-package io.github.blackbaroness.boilerplate.paper.service
+package io.github.blackbaroness.boilerplate.paper
 
 import com.github.benmanes.caffeine.cache.AsyncCacheLoader
 import com.github.benmanes.caffeine.cache.Caffeine

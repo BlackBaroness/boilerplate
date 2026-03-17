@@ -15,18 +15,18 @@ class PotionEffectReadableSerializer : SurrogateSerializer<PotionEffect, PotionE
         value.type,
         value.duration,
         value.amplifier,
-        value.isAmbient,
-        value.hasParticles(),
-        value.hasIcon()
+        value.isAmbient.takeIf { !it },
+        value.hasParticles().takeIf { !it },
+        value.hasIcon().takeIf { !it }
     )
 
     override fun fromSurrogate(value: Surrogate): PotionEffect = PotionEffect(
         value.type,
         value.duration,
         value.amplifier,
-        value.ambient,
-        value.particles,
-        value.icon
+        value.ambient ?: true,
+        value.particles ?: true,
+        value.icon ?: true
     )
 
     @Serializable
@@ -34,8 +34,8 @@ class PotionEffectReadableSerializer : SurrogateSerializer<PotionEffect, PotionE
         val type: @Contextual PotionEffectType,
         val duration: Int,
         val amplifier: Int,
-        val ambient: Boolean,
-        val particles: Boolean,
-        val icon: Boolean,
+        val ambient: Boolean? = null,
+        val particles: Boolean? = null,
+        val icon: Boolean? = null,
     )
 }

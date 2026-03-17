@@ -2,13 +2,17 @@ package io.github.blackbaroness.boilerplate.paper
 
 import io.github.blackbaroness.boilerplate.Boilerplate
 import io.github.blackbaroness.boilerplate.adventure.ExtendedAudience
+import io.github.blackbaroness.boilerplate.adventure.asAdventureComponent
+import io.github.blackbaroness.boilerplate.adventure.asBungeeCordComponents
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.ComponentLike
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.plugin.Plugin
 
 @Suppress("ObjectPropertyName")
@@ -65,3 +69,39 @@ val CommandSender.adventure: Audience
 @Deprecated("Not a good solution tbh")
 val Collection<CommandSender>.adventure: Audience
     get() = Audience.audience(map { it.adventure })
+
+@Suppress("DEPRECATION", "UnusedReceiverParameter")
+fun Boilerplate.getDisplayName(itemMeta: ItemMeta): Component? {
+    return if (Boilerplate.isNativeAdventureApiAvailable) {
+        itemMeta.displayName()
+    } else {
+        itemMeta.displayNameComponent?.asAdventureComponent
+    }
+}
+
+@Suppress("DEPRECATION", "UnusedReceiverParameter")
+fun Boilerplate.setDisplayName(itemMeta: ItemMeta, displayName: ComponentLike?) {
+    if (Boilerplate.isNativeAdventureApiAvailable) {
+        itemMeta.displayName(displayName?.asComponent())
+    } else {
+        itemMeta.setDisplayNameComponent(displayName?.asBungeeCordComponents)
+    }
+}
+
+@Suppress("DEPRECATION", "UnusedReceiverParameter")
+fun Boilerplate.getLore(itemMeta: ItemMeta): List<Component>? {
+    return if (Boilerplate.isNativeAdventureApiAvailable) {
+        itemMeta.lore()
+    } else {
+        itemMeta.loreComponents?.map { it.asAdventureComponent }
+    }
+}
+
+@Suppress("DEPRECATION", "UnusedReceiverParameter")
+fun Boilerplate.setLore(itemMeta: ItemMeta, lore: List<Component>?) {
+    if (Boilerplate.isNativeAdventureApiAvailable) {
+        itemMeta.lore(lore)
+    } else {
+        itemMeta.loreComponents = lore?.map { it.asBungeeCordComponents }
+    }
+}

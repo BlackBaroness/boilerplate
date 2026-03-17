@@ -1,5 +1,6 @@
-package io.github.blackbaroness.boilerplate
+package io.github.blackbaroness.boilerplate.paper
 
+import io.github.blackbaroness.boilerplate.Boilerplate
 import org.bukkit.Material
 
 @Suppress("UnusedReceiverParameter")

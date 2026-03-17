@@ -1,13 +1,14 @@
 package io.github.blackbaroness.boilerplate.serialization.kotlinx.paper
 
+import io.github.blackbaroness.boilerplate.paper.asMinimalString
 import io.github.blackbaroness.boilerplate.serialization.kotlinx.SurrogateSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import org.bukkit.NamespacedKey
 import org.bukkit.attribute.AttributeModifier
-import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.EquipmentSlotGroup
 import java.util.*
 
-@Suppress("DEPRECATION", "removal")
 class AttributeModifierReadableSerializer :
     SurrogateSerializer<AttributeModifier, AttributeModifierReadableSerializer.Surrogate>(
         Surrogate.serializer(),
@@ -15,18 +16,24 @@ class AttributeModifierReadableSerializer :
     ) {
 
     override fun toSurrogate(value: AttributeModifier) = Surrogate(
-        value.uniqueId, value.name, value.operation, value.amount, value.slot
+        id = value.key.asMinimalString,
+        amount = value.amount,
+        operation = value.operation,
+        slotGroup = value.slotGroup
     )
 
-    override fun fromSurrogate(value: Surrogate) =
-        AttributeModifier(value.uuid, value.name, value.amount, value.operation, value.slot)
+    override fun fromSurrogate(value: Surrogate) = AttributeModifier(
+        NamespacedKey.fromString(value.id) ?: error("Invalid attribute modifier id '${value.id}'"),
+        value.amount,
+        value.operation,
+        value.slotGroup
+    )
 
     @Serializable
     data class Surrogate(
-        val uuid: @Contextual UUID = UUID.randomUUID(),
-        val name: String,
-        val operation: AttributeModifier.Operation,
+        val id: String = UUID.randomUUID().toString(),
         val amount: Double,
-        val slot: EquipmentSlot?,
+        val operation: AttributeModifier.Operation,
+        val slotGroup: @Contextual EquipmentSlotGroup,
     )
 }
