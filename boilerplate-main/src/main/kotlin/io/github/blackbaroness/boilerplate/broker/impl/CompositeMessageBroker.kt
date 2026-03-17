@@ -8,7 +8,7 @@ import kotlinx.serialization.KSerializer
 import kotlin.reflect.KClass
 
 class CompositeMessageBroker<TRANSPORT>(
-    private val brokers: List<MessageBroker<TRANSPORT>>,
+    val brokers: List<MessageBroker<TRANSPORT>>,
 ) : BaseMessageBroker<TRANSPORT>() {
 
     constructor(vararg brokers: MessageBroker<TRANSPORT>) : this(brokers.toList())
@@ -28,10 +28,7 @@ class CompositeMessageBroker<TRANSPORT>(
         topic: String,
         messageClass: KClass<MESSAGE>,
         serializer: KSerializer<MESSAGE>?,
-    ): Flow<ReceivedMessage<TRANSPORT, MESSAGE>> =
-        merge(
-            *brokers.map {
-                it.subscribe(topic, messageClass, serializer)
-            }.toTypedArray()
-        )
+    ): Flow<ReceivedMessage<TRANSPORT, MESSAGE>> {
+        return brokers.map { it.subscribe(topic, messageClass, serializer) }.merge()
+    }
 }
