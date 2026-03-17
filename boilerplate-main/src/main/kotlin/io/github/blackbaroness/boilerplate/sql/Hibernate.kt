@@ -311,7 +311,7 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
-    var useSecondLevelCaching by writeOnly<Boolean> {
+    var useSecondLevelCache by writeOnly<Boolean> {
         wrapped.applySetting(Environment.USE_SECOND_LEVEL_CACHE, it)
     }
 

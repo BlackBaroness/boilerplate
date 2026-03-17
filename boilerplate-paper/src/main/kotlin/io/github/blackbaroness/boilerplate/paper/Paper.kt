@@ -32,7 +32,7 @@ val NamespacedKey.asMinimalString
     get() = if (namespace == NamespacedKey.MINECRAFT) key else asString()
 
 fun Plugin.getResourceOrThrow(name: String): InputStream {
-    return getResource("jcache.conf") ?: error("jcache.conf is missing")
+    return getResource(name) ?: error("Resource '$name' is missing")
 }
 
 inline fun <reified T> Server.findService(): T? {
