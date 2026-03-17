@@ -347,7 +347,7 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var jcacheConfigUri by writeOnly<URI> {
-        wrapped.applySetting(ConfigSettings.CONFIG_URI, it)
+        wrapped.applySetting(ConfigSettings.CONFIG_URI, it.toString())
     }
 
     fun h2(
