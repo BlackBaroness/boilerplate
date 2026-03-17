@@ -337,7 +337,7 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var jcacheProvider by writeOnly<KClass<out CachingProvider>> {
-        wrapped.applySetting(ConfigSettings.PROVIDER, it.java)
+        wrapped.applySetting(ConfigSettings.PROVIDER, it.java.name)
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
