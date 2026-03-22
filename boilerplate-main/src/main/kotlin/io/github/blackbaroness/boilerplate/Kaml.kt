@@ -83,7 +83,7 @@ private fun <T : Any> loadYamlConfigurationFile0(
         default.invoke()
     }
 
-    var text = buildString { extractHeaderLines(clazz).forEach { appendLine(it) } }
+    var text = buildString { extractHeaderLines(clazz).forEach { appendLine("# $it") } }
     text += yaml.encodeToString(serializer, result)
     text = replaceEmptyCommentsWithEmptyLines(text)
     if (removeNulls) {
@@ -113,6 +113,7 @@ private fun replaceEmptyCommentsWithEmptyLines(text: String): String = buildStri
     }
 }
 
+@Suppress("UnusedReceiverParameter")
 fun Boilerplate.removeNullFieldsInYamlText(text: String): String {
     val lines = text.lines()
     val out = StringBuilder()
