@@ -417,10 +417,10 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
         ignoreCase: Boolean? = null,
         caseInsensitiveIdentifiers: Boolean? = null,
     ) {
-        jdbcUser = "sa"
-        jdbcPassword = ""
-        jdbcDriver = org.h2.Driver::class
-        jdbcUrl = buildString {
+        val dataSource = org.h2.jdbcx.JdbcDataSource()
+        dataSource.user = "sa"
+        dataSource.password = ""
+        dataSource.setURL(buildString {
             append("jdbc:h2:")
             append(directory.absolutePathString())
             append(File.separator)
@@ -435,7 +435,9 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
                 append(";CASE_INSENSITIVE_IDENTIFIERS=")
                 append(caseInsensitiveIdentifiers.toString().uppercase())
             }
-        }
+        })
+
+        this.nonJtaDatasource = dataSource
     }
 
     fun mysql(config: MariaDbConfiguration) {
