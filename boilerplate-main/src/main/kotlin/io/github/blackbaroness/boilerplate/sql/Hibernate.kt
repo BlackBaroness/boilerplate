@@ -34,6 +34,7 @@ import java.sql.Driver
 import java.util.*
 import java.util.stream.Stream
 import javax.cache.spi.CachingProvider
+import javax.sql.DataSource
 import kotlin.io.path.absolutePathString
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createTempFile
@@ -221,6 +222,16 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
     val wrapped = StandardServiceRegistryBuilder(registry)
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var jtaDatasource by writeOnly<DataSource> {
+        wrapped.applySetting(Environment.JAKARTA_JTA_DATASOURCE, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var nonJtaDatasource by writeOnly<DataSource> {
+        wrapped.applySetting(Environment.JAKARTA_NON_JTA_DATASOURCE, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var jdbcUrl by writeOnly<String> {
         wrapped.applySetting(Environment.JAKARTA_JDBC_URL, it)
     }
@@ -321,8 +332,23 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariMaxSize by writeOnly<Int> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_MAX_SIZE, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariMinIdleSize by writeOnly<Int> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_MIN_IDLE_SIZE, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hikariMaxLifetime by writeOnly<Duration> {
         wrapped.applySetting(HikariCPSettings.HIKARI_MAX_LIFETIME, it.inWholeMilliseconds)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariLeakTimeout by writeOnly<Duration> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_LEAK_TIMEOUT, it.inWholeMilliseconds)
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
@@ -331,8 +357,43 @@ class StandardRegistryConfigurator internal constructor(registry: BootstrapServi
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariAcquisitionTimeout by writeOnly<Duration> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_ACQUISITION_TIMEOUT, it.inWholeMilliseconds)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariValidationTimeout by writeOnly<Duration> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_VALIDATION_TIMEOUT, it.inWholeMilliseconds)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariInitializationTimeout by writeOnly<Duration> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_INITIALIZATION_TIMEOUT, it.inWholeMilliseconds)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariKeepaliveTime by writeOnly<Duration> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_KEEPALIVE_TIME, it.inWholeMilliseconds)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariInitialSql by writeOnly<String> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_INITIAL_SQL, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
     var hikariPoolName by writeOnly<String> {
         wrapped.applySetting(HikariCPSettings.HIKARI_POOL_NAME, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariReadOnly by writeOnly<Boolean> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_READ_ONLY, it)
+    }
+
+    @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
+    var hikariIsolateInternalQueries by writeOnly<Boolean> {
+        wrapped.applySetting(HikariCPSettings.HIKARI_ISOLATE_INTERNAL_QUERIES, it)
     }
 
     @get:Deprecated(message = WRITE_ONLY_MESSAGE, level = DeprecationLevel.ERROR)
