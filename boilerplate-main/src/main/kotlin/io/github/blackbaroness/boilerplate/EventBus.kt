@@ -59,7 +59,7 @@ abstract class SimpleEventHandler<EVENT>(
     override val priority: EventHandler.Priority,
 ) : EventHandler<EVENT> {
     private val _destroyed = AtomicBoolean()
-    final override val destroyed get() = !_destroyed.get()
+    final override val destroyed get() = _destroyed.get()
     final override fun destroy() = _destroyed.set(true)
 }
 
@@ -69,7 +69,7 @@ suspend inline fun <EVENT> EventBus<EVENT>.subscribe(
 ): EventHandler<EVENT> {
     val handler = object : SimpleEventHandler<EVENT>(priority) {
         override suspend fun handle(event: EVENT) {
-            if (destroyed) {
+            if (!destroyed) {
                 action.invoke(event)
             }
         }
