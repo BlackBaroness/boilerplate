@@ -128,3 +128,31 @@ This documentation is only available in Russian since it targets my clients.
 
   # + поддерживаются все параметры из normal
 ```
+
+
+## `armor` - пример
+```yml
+секция: !<armor>
+  # тип брони
+  material: 'netherite_chestplate'
+
+  # название
+  name: '<gold>эпичная броня'
+
+  # описание
+  lore:
+  - '<gray>очень крутая'
+  - '<red>и дорогая'
+
+  # зачарования
+  enchantments:
+    'protection': 4
+    'unbreaking': 3
+
+  # настройка шаблона
+  trim:
+    # Материал узора:
+    material: 'gold'
+    # Паттерн (узор):
+    pattern: 'spire'
+```
