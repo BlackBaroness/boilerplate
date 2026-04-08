@@ -5,6 +5,7 @@ This documentation is only available in Russian since it targets my clients.
 ---
 
 Пример конфига:
+
 ```yml
 menu:
   title: '<red>title'
@@ -35,6 +36,7 @@ menu:
 ```
 
 Пример кода:
+
 ```kotlin
 @Serializable
 data class Config(

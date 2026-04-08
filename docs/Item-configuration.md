@@ -5,6 +5,7 @@ This documentation is only available in Russian since it targets my clients.
 ---
 
 Предметы бывают разных типов:
+
 - `normal` - просто обычные
 - `player-head` - головы игроков (с текстурами)
 - `potion` - зелья
@@ -15,6 +16,7 @@ This documentation is only available in Russian since it targets my clients.
 Тип указывается через !<id>, это называется [YAML тэгом](https://yaml.org/spec/1.2/spec.html#id2761292).
 
 Например,
+
 ```yml
 секция: !<normal>
   # а тут уже параметры
