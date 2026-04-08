@@ -20,7 +20,7 @@ class SimpleEventBus<EVENT> : EventBus<EVENT> {
                 val iterator = handlers.iterator()
                 while (iterator.hasNext()) {
                     val handler = iterator.next()
-                    if (!handler.destroyed) {
+                    if (handler.destroyed) {
                         iterator.remove()
                         continue
                     }
@@ -36,7 +36,7 @@ class SimpleEventBus<EVENT> : EventBus<EVENT> {
     }
 
     override suspend fun subscribe(handler: EventHandler<EVENT>) {
-        if (!handler.destroyed) return
+        if (handler.destroyed) return
 
         mutex.withLock {
             handlers.add(handler)
