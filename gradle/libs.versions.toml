@@ -6,12 +6,12 @@ invui = "1.49"
 guice = "7.0.0"
 litecommands = "3.10.9"
 mccoroutine = "2.22.0"
-hibernate = "7.3.0.Final"
+hibernate = "7.3.1.Final"
 
 [libraries]
 # KotlinX
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.10.0" }
-kotlinx-serialization-cbor = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cbor", version = "1.10.0" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version = "1.11.0" }
+kotlinx-serialization-cbor = { module = "org.jetbrains.kotlinx:kotlinx-serialization-cbor", version = "1.11.0" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version = "1.10.2" }
 
 # LiteCommands
