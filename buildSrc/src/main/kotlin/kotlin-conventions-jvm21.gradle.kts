@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("kotlin-conventions")
@@ -7,12 +6,24 @@ plugins {
 
 kotlin {
     jvmToolchain(21)
+
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
 }
 
-tasks.withType<JavaCompile> {
-    options.release = 21
+tasks.withType<JavaCompile>() {
+    options.release.set(17)
 }
 
-tasks.withType<KotlinCompile> {
-    compilerOptions.jvmTarget = JvmTarget.JVM_21
+configurations.matching { it.isCanBeResolved }.configureEach {
+    attributes {
+        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 21)
+    }
+}
+
+configurations.matching { it.isCanBeConsumed }.configureEach {
+    attributes {
+        attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+    }
 }
