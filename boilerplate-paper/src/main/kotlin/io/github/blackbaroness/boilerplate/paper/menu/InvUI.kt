@@ -1,9 +1,10 @@
 @file:ApiStatus.Obsolete
 
-package io.github.blackbaroness.boilerplate.paper
+package io.github.blackbaroness.boilerplate.paper.menu
 
 import com.github.shynixn.mccoroutine.folia.entityDispatcher
 import io.github.blackbaroness.boilerplate.adventure.MiniMessageComponent
+import io.github.blackbaroness.boilerplate.paper.item.ItemStackProvider
 import kotlinx.coroutines.withContext
 import net.kyori.adventure.text.ComponentLike
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -39,22 +40,37 @@ fun PagedGui<*>.autoUpdateTitleOnPageChange(titleProvider: (currentPage: Int, to
     }
 }
 
-inline fun Gui.Builder<*, *>.ingredient(char: Char, provider: () -> Item) {
-    addIngredient(char, provider.invoke())
-}
-
-inline fun Gui.Builder<*, *>.ingredientProvider(char: Char, provider: () -> ItemProvider) {
-    addIngredient(char, provider.invoke())
-}
-
 fun Gui.Builder<*, *>.ingredient(char: Char, item: Item) {
     addIngredient(char, item)
 }
 
-suspend inline fun <TEMPLATES> Plugin.open(
+fun Gui.Builder<*, *>.ingredient(char: Char, item: ItemProvider) {
+    addIngredient(char, item)
+}
+
+fun Gui.Builder<*, *>.ingredient(char: Char, item: ItemStackProvider) {
+    addIngredient(char, item.cachedItem)
+}
+
+@JvmName("ingredientItem")
+inline fun Gui.Builder<*, *>.ingredient(char: Char, provider: () -> Item) {
+    ingredient(char, provider.invoke())
+}
+
+@JvmName("ingredientItemProvider")
+inline fun Gui.Builder<*, *>.ingredient(char: Char, provider: () -> ItemProvider) {
+    ingredient(char, provider.invoke())
+}
+
+@JvmName("ingredientItemStackProvider")
+inline fun Gui.Builder<*, *>.ingredient(char: Char, provider: () -> ItemStackProvider) {
+    ingredient(char, provider.invoke())
+}
+
+suspend inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> Plugin.open(
     player: Player,
-    template: MenuTemplate<TEMPLATES>,
-    configure: (menu: MenuTemplate<TEMPLATES>, window: Window.Builder.Normal.Single, gui: PagedGui.Builder<Item>) -> Unit,
+    template: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>,
+    configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, window: Window.Builder.Normal.Single, gui: PagedGui.Builder<Item>) -> Unit,
 ): Window {
     val windowBuilder = Window.single()
     windowBuilder.setTitle(template.title)

@@ -1,10 +1,11 @@
-package io.github.blackbaroness.boilerplate.paper
+package io.github.blackbaroness.boilerplate.paper.item
 
 import io.github.blackbaroness.boilerplate.Boilerplate
 import org.bukkit.Material
 import org.bukkit.entity.HumanEntity
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
 import kotlin.math.min
 
 val ItemStack?.isInvalid: Boolean
@@ -54,4 +55,17 @@ fun Boilerplate.createItemStacks(reference: ItemStack, amount: Int): List<ItemSt
 
 fun ItemStack.clone(amount: Int): ItemStack {
     return clone().also { it.amount = amount }
+}
+
+inline fun ItemStack.editMetaInline(action: (ItemMeta) -> Unit) {
+    val meta = itemMeta
+    action.invoke(meta)
+    itemMeta = meta
+}
+
+@JvmName("editMetaInlineTyped")
+inline fun <reified T : ItemMeta> ItemStack.editMetaInline(action: (T) -> Unit) {
+    val meta = itemMeta
+    action.invoke(meta as T)
+    itemMeta = meta
 }

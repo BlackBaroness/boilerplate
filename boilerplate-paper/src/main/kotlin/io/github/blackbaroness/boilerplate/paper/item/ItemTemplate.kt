@@ -1,4 +1,4 @@
-package io.github.blackbaroness.boilerplate.paper
+package io.github.blackbaroness.boilerplate.paper.item
 
 import com.destroystokyo.paper.profile.ProfileProperty
 import io.github.blackbaroness.boilerplate.adventure.parseMiniMessage
@@ -22,7 +22,7 @@ import org.bukkit.potion.PotionType
 
 @Suppress("UnstableApiUsage")
 @Serializable
-sealed class ItemTemplate {
+sealed class ItemTemplate : ItemStackProvider {
 
     abstract val material: @Contextual Material
     abstract val amount: Int?
@@ -55,11 +55,8 @@ sealed class ItemTemplate {
         val hiddenComponents: Set<@Contextual DataComponentType>? = null,
     )
 
-    val cachedItem by lazy { createItem(TagResolver.empty()) }
-
-    fun createItem(): ItemStack {
-        return cachedItem.clone()
-    }
+    override val cachedItem by lazy { createItem(TagResolver.empty()) }
+    override fun createItem() = cachedItem.clone()
 
     fun createItem(
         tagResolver: TagResolver,
