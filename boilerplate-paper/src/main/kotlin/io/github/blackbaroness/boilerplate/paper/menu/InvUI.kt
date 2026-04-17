@@ -72,22 +72,39 @@ suspend inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> Plu
     template: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>,
     configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, window: Window.Builder.Normal.Single, gui: PagedGui.Builder<Item>) -> Unit,
 ): Window {
-    val windowBuilder = Window.single()
-    windowBuilder.setTitle(template.title)
-
-    val guiBuilder = PagedGui.items()
-    guiBuilder.setStructure(*template.structure.toTypedArray())
-    guiBuilder.addIngredient('.', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-    template.customElements.forEach { (key, item) ->
-        guiBuilder.addIngredient(key, ItemWrapper(item.cachedItem))
+    val window = template.createWindow { _, window ->
+        window.setGui(template.createGui { _, gui ->
+            configure.invoke(template, window, gui)
+        })
     }
+    open(player, window)
+    return window
+}
 
-    configure.invoke(template, windowBuilder, guiBuilder)
-
-    windowBuilder.setGui(guiBuilder.build())
-    val window = windowBuilder.build(player)
+suspend inline fun Plugin.open(player: Player, window: Window) {
     withContext(entityDispatcher(player)) {
         window.open()
     }
-    return window
+}
+
+inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>.createGui(
+    configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, gui: PagedGui.Builder<Item>) -> Unit,
+): PagedGui<Item> {
+    val builder = PagedGui.items()
+    builder.setStructure(*structure.toTypedArray())
+    builder.addIngredient('.', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
+    customElements.forEach { (key, item) ->
+        builder.addIngredient(key, ItemWrapper(item.cachedItem))
+    }
+    configure.invoke(this, builder)
+    return builder.build()
+}
+
+inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>.createWindow(
+    configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, window: Window.Builder.Normal.Single) -> Unit,
+): Window {
+    val windowBuilder = Window.single()
+    windowBuilder.setTitle(title)
+    configure.invoke(this, windowBuilder)
+    return windowBuilder.build()
 }
