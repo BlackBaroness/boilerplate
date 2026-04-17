@@ -81,6 +81,20 @@ suspend inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> Plu
     return window
 }
 
+suspend inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> Plugin.open(
+    player: Player,
+    gui: Gui,
+    template: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>,
+    configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, window: Window.Builder.Normal.Single) -> Unit,
+): Window {
+    val window = template.createWindow { _, window ->
+        window.setGui(gui)
+        configure.invoke(template, window)
+    }
+    open(player, window)
+    return window
+}
+
 suspend inline fun Plugin.open(player: Player, window: Window) {
     withContext(entityDispatcher(player)) {
         window.open()
