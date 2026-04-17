@@ -72,7 +72,8 @@ suspend inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> Plu
     template: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>,
     configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, window: Window.Builder.Normal.Single, gui: PagedGui.Builder<Item>) -> Unit,
 ): Window {
-    val window = template.createWindow { _, window ->
+    val window = template.createWindow(player) { _, window ->
+        window.setViewer(player)
         window.setGui(template.createGui { _, gui ->
             configure.invoke(template, window, gui)
         })
@@ -87,7 +88,7 @@ suspend inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> Plu
     template: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>,
     configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, window: Window.Builder.Normal.Single) -> Unit,
 ): Window {
-    val window = template.createWindow { _, window ->
+    val window = template.createWindow(player) { _, window ->
         window.setGui(gui)
         configure.invoke(template, window)
     }
@@ -115,10 +116,11 @@ inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> MenuTemplat
 }
 
 inline fun <TEMPLATES, CUSTOM_ELEMENTS_PROVIDER : ItemStackProvider> MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>.createWindow(
+    viewer: Player,
     configure: (menu: MenuTemplate<TEMPLATES, CUSTOM_ELEMENTS_PROVIDER>, window: Window.Builder.Normal.Single) -> Unit,
 ): Window {
     val windowBuilder = Window.single()
     windowBuilder.setTitle(title)
     configure.invoke(this, windowBuilder)
-    return windowBuilder.build()
+    return windowBuilder.build(viewer)
 }
