@@ -23,7 +23,7 @@ fun Inventory.toMap(clone: Boolean = true): Map<Int, ItemStack?> {
         .toMap()
 }
 
-fun HumanEntity.giveOrDrop(items: Array<ItemStack>, allowOthersPickup: Boolean = false, willAge: Boolean = false) {
+fun HumanEntity.giveOrDrop(items: Array<out ItemStack>, allowOthersPickup: Boolean = false, willAge: Boolean = false) {
     inventory.addItem(*items).forEach { (_, item) ->
         location.world.dropItem(location, item) { droppedItem ->
             droppedItem.owner = if (allowOthersPickup) null else uniqueId
@@ -34,7 +34,7 @@ fun HumanEntity.giveOrDrop(items: Array<ItemStack>, allowOthersPickup: Boolean =
 
 @JvmName("giveOrDropVararg")
 fun HumanEntity.giveOrDrop(vararg items: ItemStack, allowOthersPickup: Boolean = false, willAge: Boolean = false) {
-    giveOrDrop(*items, allowOthersPickup = allowOthersPickup, willAge = willAge)
+    giveOrDrop(items, allowOthersPickup = allowOthersPickup, willAge = willAge)
 }
 
 fun HumanEntity.giveOrDrop(items: Collection<ItemStack>, allowOthersPickup: Boolean = false, willAge: Boolean = false) {
