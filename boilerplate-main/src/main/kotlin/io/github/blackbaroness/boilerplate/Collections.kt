@@ -15,6 +15,15 @@ fun <K, V, R> Map<K, V?>.mapNotNullValues(transform: (K, V) -> R): Map<K, R> {
         .mapValues { transform(it.key, it.value!!) }
 }
 
+inline fun <KEY, OLD_VALUE, NEW_VALUE> Map<KEY, OLD_VALUE>.mapValuesFast(transform: (Map.Entry<KEY, OLD_VALUE>) -> NEW_VALUE): MutableMap<KEY, NEW_VALUE> {
+    val result = HashMap<KEY, NEW_VALUE>(size)
+    for (entry in this) {
+        val transformed = transform.invoke(entry)
+        result[entry.key] = transformed
+    }
+    return result
+}
+
 inline fun <ELEMENT, KEY, VALUE> Collection<ELEMENT>.fastToMap(
     map: MutableMap<KEY, VALUE> = HashMap(size),
     key: (ELEMENT) -> KEY,
