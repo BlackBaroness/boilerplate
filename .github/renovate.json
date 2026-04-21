@@ -8,6 +8,7 @@
     "ignoreDeps": [
         "io.papermc.paper:paper-api",
         "xyz.xenondevs.invui:invui-core",
-        "xyz.xenondevs.invui:invui-kotlin"
+        "xyz.xenondevs.invui:invui-kotlin",
+        "net.kyori:adventure-api"
     ]
 }
