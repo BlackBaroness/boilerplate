@@ -2,11 +2,11 @@
 kotlin = "2.3.20"
 adventure = "5.0.1"
 adventure-platforms = "4.4.1"
-invui = "1.49"
+invui = "2.0.0"
 guice = "7.0.0"
 litecommands = "3.10.9"
 mccoroutine = "2.22.0"
-hibernate = "7.3.1.Final"
+hibernate = "7.3.2.Final"
 
 [libraries]
 # KotlinX
