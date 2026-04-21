@@ -6,6 +6,8 @@
         "group:all"
     ],
     "ignoreDeps": [
-        "com.destroystokyo.paper:paper-api"
+        "io.papermc.paper:paper-api",
+        "xyz.xenondevs.invui:invui-core",
+        "xyz.xenondevs.invui:invui-kotlin"
     ]
 }
