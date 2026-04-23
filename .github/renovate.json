@@ -2,13 +2,11 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended",
-        ":disableRateLimiting",
         "group:all"
     ],
     "ignoreDeps": [
         "io.papermc.paper:paper-api",
         "xyz.xenondevs.invui:invui-core",
-        "xyz.xenondevs.invui:invui-kotlin",
-        "net.kyori:adventure-api"
+        "xyz.xenondevs.invui:invui-kotlin"
     ]
 }
