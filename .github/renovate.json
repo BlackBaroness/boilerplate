@@ -6,7 +6,7 @@
     ],
     "ignoreDeps": [
         "io.papermc.paper:paper-api",
-        "xyz.xenondevs.invui:invui-core",
+        "xyz.xenondevs.invui:invui",
         "xyz.xenondevs.invui:invui-kotlin"
     ]
 }
