@@ -11,11 +11,20 @@ import net.md_5.bungee.api.CommandSender
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.connection.Connection
-import net.md_5.bungee.api.connection.ProxiedPlayer
 import net.md_5.bungee.api.plugin.Plugin
 
 @Suppress("ObjectPropertyName")
 private var _bungeeAudiences: BungeeAudiences? = null
+
+@Suppress("ObjectPropertyName")
+private var _enableBungeeCordAudienceWrapper: Boolean = false
+
+@Suppress("UnusedReceiverParameter")
+var Boilerplate.enableBungeeCordAudienceWrapper: Boolean
+    set(value) {
+        _enableBungeeCordAudienceWrapper = value
+    }
+    get() = _enableBungeeCordAudienceWrapper
 
 @Suppress("UnusedReceiverParameter")
 val Boilerplate.bungeeAudiences: BungeeAudiences
@@ -40,13 +49,10 @@ fun Boilerplate.destroyAdventure() {
 }
 
 val CommandSender.adventure: Audience
-    get() = ExtendedAudience(
-        if (this is ProxiedPlayer) {
-            Boilerplate.bungeeAudiences.player(this)
-        } else {
-            Boilerplate.bungeeAudiences.sender(this)
-        }
-    )
+    get() {
+        val audience = Boilerplate.bungeeAudiences.sender(this)
+        return if (_enableBungeeCordAudienceWrapper) ExtendedAudience(audience) else audience
+    }
 
 val ComponentLike.asBungeeCordComponents: Array<BaseComponent>
     get() = BungeeComponentSerializer.get().serialize(asComponent())
