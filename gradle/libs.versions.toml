@@ -6,7 +6,7 @@ invui = "1.49"
 guice = "7.0.0"
 litecommands = "3.10.9"
 mccoroutine = "2.22.0"
-hibernate = "7.3.2.Final"
+hibernate = "7.3.3.Final"
 
 [libraries]
 # KotlinX
@@ -54,14 +54,14 @@ durationserializer = { module = "io.github.blackbaroness:duration-serializer", v
 nbtapi = { module = "de.tr7zw:item-nbt-api-plugin", version = "2.15.7" }
 h2 = { module = "com.h2database:h2", version = "2.4.240" }
 mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version = "3.5.8" }
-postgresql = { module = "org.postgresql:postgresql", version = "42.7.10" }
+postgresql = { module = "org.postgresql:postgresql", version = "42.7.11" }
 bungeecord = { module = "net.md-5:bungeecord-api", version = "1.21-R0.4" }
 bytebuddy = { module = "net.bytebuddy:byte-buddy", version = "1.18.8" }
 placeholderapi = { module = "me.clip:placeholderapi", version = "2.12.2" }
 redisson = { module = "org.redisson:redisson", version = "4.3.1" }
-caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.3" }
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.4" }
 luckperms = { module = "net.luckperms:api", version = "5.5" }
-zstd = { module = "com.github.luben:zstd-jni", version = "1.5.7-7" }
+zstd = { module = "com.github.luben:zstd-jni", version = "1.5.7-8" }
 joml = { module = "org.joml:joml", version = "1.10.8" }
 bungeecordChat = { module = "net.md-5:bungeecord-chat", version = "1.21-R0.4" }
 kaml = { module = "com.charleskorn.kaml:kaml", version = "0.104.0" }
