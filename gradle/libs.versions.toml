@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.3.21"
-adventure = "5.0.1"
+adventure = "5.1.0"
 adventure-platform = "4.4.1"
 invui = "1.49"
 guice = "7.0.0"
