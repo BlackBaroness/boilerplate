@@ -1,6 +1,8 @@
 package io.github.blackbaroness.boilerplate.paper
 
 import io.github.blackbaroness.boilerplate.Boilerplate
+import io.github.blackbaroness.boilerplate.isClassPresent
+import io.papermc.paper.registry.RegistryAccess
 import org.bukkit.NamespacedKey
 import org.bukkit.Server
 import org.bukkit.plugin.Plugin
@@ -37,4 +39,8 @@ fun Plugin.getResourceOrThrow(name: String): InputStream {
 
 inline fun <reified T> Server.findService(): T? {
     return servicesManager.getRegistration(T::class.java)?.provider
+}
+
+val Boilerplate.isRegistryAccessApiAvailable by lazy {
+    isClassPresent<RegistryAccess>()
 }
