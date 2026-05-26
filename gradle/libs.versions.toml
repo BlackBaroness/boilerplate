@@ -6,7 +6,7 @@ invui = "1.49"
 guice = "7.0.0"
 litecommands = "3.10.9"
 mccoroutine = "2.22.0"
-hibernate = "7.3.6.Final"
+hibernate = "7.4.0.Final"
 
 [libraries]
 # KotlinX
