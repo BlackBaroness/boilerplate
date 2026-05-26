@@ -1,5 +1,6 @@
 package io.github.blackbaroness.boilerplate.adventure
 
+import io.github.blackbaroness.boilerplate.Boilerplate
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.ComponentLike
@@ -135,8 +136,8 @@ val Array<BaseComponent>.asAdventureComponent: Component
 
 inline fun buildComponent(action: TextComponent.Builder.() -> Unit): Component {
     val builder = Component.text()
-    action.invoke(builder)
-    return builder.build()
+    action(builder)
+    return Boilerplate.Reflection.textComponentBuilder_build.invoke(builder) as Component
 }
 
 fun TextComponent.Builder.append(rawString: String, vararg tagResolvers: TagResolver) {
