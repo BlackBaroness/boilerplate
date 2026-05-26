@@ -137,7 +137,7 @@ val Array<BaseComponent>.asAdventureComponent: Component
 inline fun buildComponent(action: TextComponent.Builder.() -> Unit): Component {
     val builder = Component.text()
     action(builder)
-    return Boilerplate.Reflection.textComponentBuilder_build.invoke(builder) as Component
+    return Boilerplate.Reflection.componentBuilder_build.invoke(builder) as Component
 }
 
 fun TextComponent.Builder.append(rawString: String, vararg tagResolvers: TagResolver) {
