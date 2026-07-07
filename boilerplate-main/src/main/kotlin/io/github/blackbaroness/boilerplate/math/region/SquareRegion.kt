@@ -9,6 +9,12 @@ class SquareRegion(
     val side: Double,
 ) : Region {
 
+    val minX: Double = center.x() - side / 2
+    val maxX: Double = center.x() + side / 2
+
+    val minZ: Double = center.z() - side / 2
+    val maxZ: Double = center.z() + side / 2
+
     override fun contains(point: Vector3dc): Boolean {
         val halfSide = side / 2
 
@@ -20,15 +26,7 @@ class SquareRegion(
         return generateSurfacePoints(desiredDistance)
     }
 
-    /**
-     * Генерирует точки по контуру квадрата в плоскости X/Z.
-     */
     fun generateSurfacePoints(step: Double): Sequence<Vector3d> = sequence {
-        val halfSide = side / 2
-        val minX = center.x() - halfSide
-        val maxX = center.x() + halfSide
-        val minZ = center.z() - halfSide
-        val maxZ = center.z() + halfSide
         val y = center.y()
 
         var x = minX
@@ -47,16 +45,9 @@ class SquareRegion(
     }
 
     fun intersects(min: Vector3dc, max: Vector3dc): Boolean {
-        val halfSide = side / 2
-
-        val regionMinX = center.x() - halfSide
-        val regionMaxX = center.x() + halfSide
-        val regionMinZ = center.z() - halfSide
-        val regionMaxZ = center.z() + halfSide
-
-        return max.x() >= regionMinX &&
-            min.x() <= regionMaxX &&
-            max.z() >= regionMinZ &&
-            min.z() <= regionMaxZ
+        return max.x() >= minX &&
+            min.x() <= maxX &&
+            max.z() >= minZ &&
+            min.z() <= maxZ
     }
 }
