@@ -11,9 +11,13 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.findAnnotation
 
 fun YamlMap.navigate(vararg path: String): YamlNode {
+    return navigateOrNull(*path) ?: error("Path '${path.joinToString()}' not found on ${current.path}")
+}
+
+fun YamlMap.navigateOrNull(vararg path: String): YamlNode? {
     var current: YamlNode = this
     for (string in path) {
-        current = current.yamlMap.get<YamlNode>(string) ?: error("Path '$string' not found on ${current.path}")
+        current = current.yamlMap.get<YamlNode>(string) ?: return null
     }
     return current
 }
