@@ -6,7 +6,7 @@ invui = "1.49"
 guice = "7.0.0"
 litecommands = "3.11.0"
 mccoroutine = "2.22.0"
-hibernate = "7.4.5.Final"
+hibernate = "7.4.6.Final"
 
 [libraries]
 # KotlinX
@@ -56,12 +56,12 @@ h2 = { module = "com.h2database:h2", version = "2.4.240" }
 mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version = "3.5.10" }
 postgresql = { module = "org.postgresql:postgresql", version = "42.7.13" }
 bungeecord = { module = "net.md-5:bungeecord-api", version = "1.21-R0.4" }
-bytebuddy = { module = "net.bytebuddy:byte-buddy", version = "1.18.11" }
+bytebuddy = { module = "net.bytebuddy:byte-buddy", version = "1.18.12" }
 placeholderapi = { module = "me.clip:placeholderapi", version = "2.12.3" }
-redisson = { module = "org.redisson:redisson", version = "4.6.1" }
+redisson = { module = "org.redisson:redisson", version = "4.7.0" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version = "3.2.4" }
 luckperms = { module = "net.luckperms:api", version = "5.5" }
-zstd = { module = "com.github.luben:zstd-jni", version = "1.5.7-12" }
+zstd = { module = "com.github.luben:zstd-jni", version = "1.5.7-15" }
 joml = { module = "org.joml:joml", version = "1.10.9" }
 bungeecordChat = { module = "net.md-5:bungeecord-chat", version = "1.21-R0.4" }
 kaml = { module = "com.charleskorn.kaml:kaml", version = "0.104.0" }
