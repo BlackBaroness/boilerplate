@@ -18,7 +18,7 @@ class KotlinDurationStringSerializer(
 ) : KSerializer<Duration> {
 
     override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor(Duration::class.qualifiedName!!, PrimitiveKind.STRING)
+        PrimitiveSerialDescriptor(this::class.qualifiedName!!, PrimitiveKind.STRING)
 
     private val serializer = DurationStringSerializer(serializeFormat, deserializeFormats)
 
