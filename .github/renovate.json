@@ -2,7 +2,8 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended",
-        "group:all"
+        "group:all",
+        ":disableDependencyDashboard"
     ],
     "ignoreDeps": [
         "io.papermc.paper:paper-api",
