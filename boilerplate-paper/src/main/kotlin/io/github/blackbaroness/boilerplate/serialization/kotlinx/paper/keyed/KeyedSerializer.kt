@@ -4,6 +4,7 @@ import io.github.blackbaroness.boilerplate.Boilerplate
 import io.github.blackbaroness.boilerplate.paper.asMinimalString
 import io.github.blackbaroness.boilerplate.paper.resolveNamespacedKey
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -21,7 +22,7 @@ abstract class KeyedSerializer<T : Keyed>(clazz: KClass<T>) : KSerializer<T> {
     override fun deserialize(decoder: Decoder): T {
         val string = decoder.decodeString()
         val key = Boilerplate.resolveNamespacedKey(string)
-            ?: throw IllegalArgumentException("Invalid key '$string'")
+            ?: throw SerializationException("Invalid key of '${descriptor.serialName}' '$string'")
 
         return resolveEntityFromKey(key)
     }
@@ -30,5 +31,5 @@ abstract class KeyedSerializer<T : Keyed>(clazz: KClass<T>) : KSerializer<T> {
         encoder.encodeString(value.key.asMinimalString)
     }
 
-    abstract fun resolveEntityFromKey(key: NamespacedKey): T
+    protected abstract fun resolveEntityFromKey(key: NamespacedKey): T
 }
