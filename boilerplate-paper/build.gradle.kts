@@ -57,4 +57,5 @@ dependencies {
     compileOnly(libs.kotlinx.serialization.json)
     compileOnly(libs.caffeine)
     compileOnly(libs.kaml)
+    compileOnly(libs.joml)
 }
