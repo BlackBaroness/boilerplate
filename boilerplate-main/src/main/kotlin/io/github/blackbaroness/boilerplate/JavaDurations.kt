@@ -20,5 +20,5 @@ fun Duration.truncate(unit: ChronoUnit, avoidZero: Boolean = true): Duration {
     return duration
 }
 
-val Duration.isPositive : Boolean
+val Duration.isPositive: Boolean
     get() = !isZero && !isNegative
